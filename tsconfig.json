@@ -40,6 +40,9 @@
   ],
   "exclude": [
     "node_modules",
-    "scripts"
+    "scripts",
+    "infrastructure",
+    "amplify",
+    "cdk.out"
   ]
 }
