@@ -1,137 +1,121 @@
+
 import { MarketingHeader } from '@/components/MarketingHeader';
 import { MarketingFooter } from '@/components/MarketingFooter';
-import { blogPosts, BlogPost } from '@/lib/resources';
+import { getPostBySlug, getAllPosts } from '@/lib/blog-api';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, Tag } from 'lucide-react';
 import { Metadata } from 'next';
 import { ArchitectureDiagram } from '@/components/architecture/ArchitectureDiagram';
 
-// Generate static params for all blog posts
-export async function generateStaticParams() {
-    return blogPosts.map((post) => ({
-        slug: post.slug,
-    }));
+interface BlogPostPageProps {
+    params: Promise<{
+        slug: string;
+    }>;
 }
 
-// Generate metadata for the page
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
     const { slug } = await params;
-    const post = blogPosts.find((p) => p.slug === slug);
+    const post = await getPostBySlug(slug);
 
     if (!post) {
         return {
-            title: 'Resource Not Found',
+            title: 'Post Not Found',
         };
     }
 
     return {
-        title: `${post.title} | Fiftysix.ai Resources`,
+        title: `${post.title} | CloudInteract`,
         description: post.excerpt,
     };
 }
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateStaticParams() {
+    const posts = await getAllPosts();
+    return posts.map((post) => ({
+        slug: post.slug,
+    }));
+}
+
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const { slug } = await params;
-    const post = blogPosts.find((p) => p.slug === slug);
+    const post = await getPostBySlug(slug);
 
     if (!post) {
         notFound();
     }
 
-
-    // Split content if it contains the placeholder
-    const [contentBefore, contentAfter] = post.content.split('<!-- Component Placeholder: ArchitectureDiagram will be injected here by the page -->');
-
     return (
-        <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-[#7D55C7]/30">
+        <div className="min-h-screen bg-white dark:bg-black font-sans selection:bg-blue-100 dark:selection:bg-blue-900">
             <MarketingHeader />
 
-            <main className="relative pt-32 pb-24">
-                {/* Background Gradients */}
-                <div className="pointer-events-none absolute inset-0 overflow-hidden">
-                    <div className="absolute left-1/2 top-0 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/5 blur-[100px]" />
-                </div>
+            <main className="pt-24 pb-16">
+                <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                <div className="container mx-auto px-6">
+                    {/* Back Link */}
                     <Link
                         href="/resources"
-                        className="mb-8 inline-flex items-center text-sm font-medium text-[var(--foreground)]/60 transition-colors hover:text-[var(--foreground)]"
+                        className="inline-flex items-center text-sm text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 mb-8 transition-colors group"
                     >
-                        <ArrowLeft className="mr-2 h-4 w-4" />
+                        <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
                         Back to Resources
                     </Link>
 
-                    <article className="mx-auto max-w-3xl">
-                        <script
-                            type="application/ld+json"
-                            dangerouslySetInnerHTML={{
-                                __html: JSON.stringify({
-                                    '@context': 'https://schema.org',
-                                    '@type': 'BlogPosting',
-                                    headline: post.title,
-                                    description: post.excerpt,
-                                    datePublished: post.date,
-                                    author: {
-                                        '@type': 'Organization',
-                                        name: 'Fiftysix.ai',
-                                    },
-                                    mainEntityOfPage: {
-                                        '@type': 'WebPage',
-                                        '@id': `https://fiftysix.ai/resources/${post.slug}`,
-                                    },
-                                }),
-                            }}
-                        />
-                        <header className="mb-12 text-center">
-                            <div className="mb-6 flex flex-wrap items-center justify-center gap-4 text-sm text-[var(--foreground)]/60">
-                                <span className="flex items-center gap-1 rounded-full bg-blue-500/10 px-3 py-1 text-blue-400">
-                                    <Tag className="h-3 w-3" />
-                                    {post.category}
-                                </span>
-                                <span className="flex items-center gap-1">
-                                    <Calendar className="h-4 w-4" />
-                                    {post.date}
-                                </span>
-                                <span className="flex items-center gap-1">
-                                    <Clock className="h-4 w-4" />
-                                    {post.readTime}
-                                </span>
+                    {/* Header */}
+                    <header className="mb-12">
+                        <div className="flex items-center gap-2 mb-6">
+                            <span className="px-3 py-1 text-xs font-semibold tracking-wider text-blue-700 uppercase bg-blue-50 dark:text-blue-300 dark:bg-blue-900/30 rounded-full">
+                                {post.category}
+                            </span>
+                        </div>
+
+                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-white mb-6 leading-tight">
+                            {post.title}
+                        </h1>
+
+                        <div className="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800 pb-8">
+                            <div className="flex items-center gap-2">
+                                <Calendar className="w-4 h-4" />
+                                <time dateTime={post.date}>{post.date}</time>
                             </div>
+                            <div className="flex items-center gap-2">
+                                <Clock className="w-4 h-4" />
+                                <span>{post.readTime || '5 min read'}</span>
+                            </div>
+                            {post.author && (
+                                <div className="flex items-center gap-2">
+                                    <span>By {post.author}</span>
+                                </div>
+                            )}
+                        </div>
+                    </header>
 
-                            <h1 className="mb-6 text-3xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-                                <span className="bg-gradient-to-b from-[var(--foreground)] to-[var(--foreground)]/60 bg-clip-text text-transparent">
-                                    {post.title}
-                                </span>
-                            </h1>
+                    {/* Content */}
+                    <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-img:rounded-xl">
+                        <div dangerouslySetInnerHTML={{ __html: post.content }} />
 
-                            <p className="text-xl text-[var(--foreground)]/60">
-                                {post.excerpt}
-                            </p>
-                        </header>
-
-                        {/* Render content before the placeholder */}
-                        <div
-                            className="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-blue-400 prose-a:no-underline hover:prose-a:text-blue-300 prose-img:rounded-2xl"
-                            dangerouslySetInnerHTML={{ __html: contentBefore }}
-                        />
-
-                        {/* Render diagram if we are on the specific page AND split was successful (implied by contentAfter existence) */}
-                        {post.slug === 'building-fiftysix-on-aws' && contentAfter && (
+                        {post.slug === 'building-fiftysix-on-aws' && (
                             <div className="my-12">
                                 <ArchitectureDiagram />
                             </div>
                         )}
+                    </div>
 
-                        {/* Render content after the placeholder (or nothing if no split) */}
-                        {contentAfter && (
-                            <div
-                                className="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-blue-400 prose-a:no-underline hover:prose-a:text-blue-300 prose-img:rounded-2xl"
-                                dangerouslySetInnerHTML={{ __html: contentAfter }}
-                            />
-                        )}
-                    </article>
-                </div>
+                    {/* Tags */}
+                    {post.tags && post.tags.length > 0 && (
+                        <div className="mt-12 pt-8 border-t border-gray-100 dark:border-gray-800">
+                            <div className="flex flex-wrap gap-2">
+                                {post.tags.map(tag => (
+                                    <span key={tag} className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+                                        <Tag className="w-3 h-3 mr-2" />
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                </article>
             </main>
 
             <MarketingFooter />
