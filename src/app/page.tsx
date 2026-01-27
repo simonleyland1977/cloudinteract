@@ -5,6 +5,7 @@ import { StandardHero } from "@/components/StandardHero"
 import { SplitHero } from "@/components/SplitHero"
 import { FeaturesSection } from "@/components/FeaturesSection"
 import { SolutionsSection } from "@/components/SolutionsSection"
+import { WhyConnectSection } from "@/components/WhyConnectSection"
 import { MarketingHeader } from "@/components/MarketingHeader"
 import { MarketingFooter } from "@/components/MarketingFooter"
 
@@ -16,6 +17,7 @@ export default function Home() {
         <MarketingHeader />
         <main className="flex-grow">
           <SplitHero />
+          <WhyConnectSection />
           <SolutionsSection />
         </main>
         <MarketingFooter />
