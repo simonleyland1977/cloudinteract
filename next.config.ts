@@ -2,7 +2,7 @@ import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
+  // output: "export", // Disabled to allow SSR on Amplify
 };
 
 export default withSentryConfig(nextConfig, {
