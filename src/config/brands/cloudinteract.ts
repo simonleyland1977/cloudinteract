@@ -58,13 +58,13 @@ export const cloudInteractConfig: SiteConfig = {
         layout: "split",
         splitHero: {
             left: {
-                title: "Modernize Core Infrastructure",
-                description: "World-class Amazon Connect Migrations & Integrations. Zero downtime, zero risk.",
-                cta: "Migrate to Cloud",
+                title: "World Class Amazon Connect Migrations and Integrations",
+                description: "Seamless transition from legacy systems. Zero downtime, zero risk.",
+                cta: "Start Your Journey",
                 href: "/services/migration"
             },
             right: {
-                title: "Revolutionize Customer Access",
+                title: "Revolutionize Customer Experience",
                 description: "AI-Powered Digital Front Door solutions that resolve 40% of inquiries instantly.",
                 cta: "Deploy AI Agents",
                 href: "/solutions/digital-front-door"
