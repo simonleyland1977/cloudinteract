@@ -37,10 +37,6 @@ export default function FinancePage() {
                 metrics: ["70% Inquiry Automation", "15% Higher Conversion"],
                 quote: "Our loan officers used to spend half their day answering status checks. Now they spend that time closing new business."
             }}
-            cta={{
-                title: "Secure your customer experience.",
-                href: "/contact"
-            }}
         />
     )
 }

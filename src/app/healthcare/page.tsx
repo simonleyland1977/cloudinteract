@@ -37,10 +37,6 @@ export default function HealthcarePage() {
                 metrics: ["40% Reduction in No-Shows", "2.5hr Admin Time Saved/Day"],
                 quote: "The ability to handle rescheduling automatically has freed our front desk to focus on patients actually in the waiting room."
             }}
-            cta={{
-                title: "Ready to modernize patient access?",
-                href: "/contact"
-            }}
         />
     )
 }

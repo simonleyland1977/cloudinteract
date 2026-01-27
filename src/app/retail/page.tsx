@@ -37,10 +37,6 @@ export default function RetailPage() {
                 metrics: ["80% Lower Processing Cost", "4.8/5 CSAT Score"],
                 quote: "Returns used to be a pain point. Now they are so easy that customers actually buy more because they trust the process."
             }}
-            cta={{
-                title: "Transform your shopping experience.",
-                href: "/contact"
-            }}
         />
     )
 }

@@ -37,10 +37,6 @@ export default function PublicSectorPage() {
                 metrics: ["60% Call Deflection", "90% Citizen Satisfaction"],
                 quote: "Citizens just want answers. By giving them instant answers via AI, we reduced anger at the counter significantly."
             }}
-            cta={{
-                title: "Modernize your agency today.",
-                href: "/contact"
-            }}
         />
     )
 }

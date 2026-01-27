@@ -37,10 +37,6 @@ export default function EdtechPage() {
                 metrics: ["95% Answer Accuracy", "Zero Wait Times"],
                 quote: "Students expect answers now, at 2 AM. With our AI agent, they get them, and our staff gets to sleep."
             }}
-            cta={{
-                title: "Empower your students.",
-                href: "/contact"
-            }}
         />
     )
 }

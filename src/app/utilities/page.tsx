@@ -37,10 +37,6 @@ export default function UtilitiesPage() {
                 metrics: ["10,000 Concurrent Calls Processed", "0 Dropped Calls"],
                 quote: "In a crisis, reliable information is safety. CloudInteract ensures every customer gets heard, even when our lines are melted."
             }}
-            cta={{
-                title: "Build resilience into your service.",
-                href: "/contact"
-            }}
         />
     )
 }
