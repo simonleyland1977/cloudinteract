@@ -7,6 +7,8 @@ export interface BlogPost {
   category: string;
   imageUrl?: string;
   readTime: string;
+  author?: string;
+  tags?: string[];
 }
 
 export const blogPosts: BlogPost[] = [
