@@ -5,7 +5,7 @@ export interface BlogPost {
   content: string; // HTML content for simplicity
   date: string;
   category: string;
-  imageUrl?: string;
+  image?: string;
   readTime: string;
   author?: string;
   tags?: string[];
