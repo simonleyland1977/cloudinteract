@@ -19,7 +19,7 @@ export function MarketingHeader() {
                         className="h-10 w-auto"
                         priority
                     />
-                    <span className="text-2xl font-bold tracking-tight text-[var(--foreground)]">
+                    <span className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-orange-400">
                         CloudInteract.io
                     </span>
                 </Link>
