@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand Core - from branding guidelines */
+  --background: #0a0a0f;
+  --foreground: #f8fafc;
+
+  /* Brand Colors */
+  --brand-purple-dark: #7D55C7;
+  --brand-purple-light: #B595D8;
+  --brand-yellow: #FFC84D;
+  --brand-orange-light: #FF8A3D;
+  --brand-orange-dark: #EE5340;
+  --brand-pink: #F40876;
+
+  /* Semantic Mapping */
+  --primary: var(--brand-purple-dark);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--brand-yellow);
+  --secondary-foreground: #020617;
+
+  --accent: var(--brand-purple-light);
+  --accent-foreground: #ffffff;
+
+  --card: rgba(125, 85, 199, 0.1);
+  --card-foreground: #f1f5f9;
+
+  --border: rgba(181, 149, 216, 0.15);
+
+  --menu-bg: #0f172a;
+}
+
+/* Light Theme (Dawn) */
+.light {
+  --background: #faf9fc;
+  --foreground: #1a1625;
+
+  --primary: var(--brand-purple-dark);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--brand-yellow);
+  --secondary-foreground: #1a1625;
+
+  --accent: var(--brand-purple-light);
+  --accent-foreground: #1a1625;
+
+  --card: rgba(125, 85, 199, 0.05);
+  --card-foreground: #1a1625;
+
+  --border: rgba(125, 85, 199, 0.15);
+
+  --menu-bg: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
