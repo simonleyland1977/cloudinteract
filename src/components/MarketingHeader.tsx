@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -8,12 +9,16 @@ import { siteConfig } from "@/config/site";
 export function MarketingHeader() {
     return (
         <header className="fixed w-full z-[100] top-0 border-b border-[var(--border)] bg-[var(--background)]/80 backdrop-blur-xl">
-            <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-                <Link href="/" className="text-xl font-bold tracking-tight text-[var(--foreground)] flex items-center gap-2">
-                    <span className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center border border-primary/30 text-accent text-sm">
-                        {siteConfig.shortName}
-                    </span>
-                    {siteConfig.name}
+            <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+                <Link href="/" className="flex items-center gap-2">
+                    <Image
+                        src="/logos/logo-full.svg"
+                        alt="CloudInteract"
+                        width={240}
+                        height={48}
+                        className="h-12 w-auto"
+                        priority
+                    />
                 </Link>
                 <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-[var(--foreground)]/60">
                     {siteConfig.mainNav.map((item) => (

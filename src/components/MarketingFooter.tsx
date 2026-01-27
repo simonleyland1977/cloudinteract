@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
@@ -5,10 +6,14 @@ export function MarketingFooter() {
     return (
         <footer className="w-full py-12 px-6 border-t border-[var(--border)] bg-[var(--card)]">
             <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-                <div className="flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-md bg-primary/20 flex items-center justify-center border border-primary/30 text-accent text-xs">
-                        {siteConfig.shortName}
-                    </span>
+                <div className="flex items-center gap-4">
+                    <Image
+                        src="/logos/logo-full.svg"
+                        alt="CloudInteract"
+                        width={160}
+                        height={32}
+                        className="h-8 w-auto"
+                    />
                     <span className="text-sm text-[var(--foreground)]/60">
                         © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
                     </span>

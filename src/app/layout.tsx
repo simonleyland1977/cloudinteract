@@ -19,6 +19,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: `${siteConfig.name} | AI-Powered Contact Centers`,
   description: "Transform your contact center with conversational AI that understands context, emotion, and intent. Powered by AWS Connect & Bedrock.",
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
