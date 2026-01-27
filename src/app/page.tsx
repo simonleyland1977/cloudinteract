@@ -13,7 +13,6 @@ export default function Home() {
   if (siteConfig.landingPage.layout === "split") {
     return (
       <div className="flex flex-col min-h-screen bg-slate-950">
-        <div className="bg-red-600 text-white text-center font-bold p-2">DEBUG: FROM CLOUDINTERACT FOLDER</div>
         <MarketingHeader />
         <main className="flex-grow">
           <SplitHero />
