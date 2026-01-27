@@ -1,0 +1,56 @@
+---
+title: Leveraging Amazon Connect and AWS Services for Outbound Dialling
+date: '2024-11-16 12:41:16'
+author: CloudInteract Team
+category: Integration
+image: >-
+  /images/resources/leveraging-amazon-connect-and-aws-services-for-outbound-dialling.png
+tags: []
+---
+## ![](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/646cc4d064688a42793b53a4_Set%20up%20a%20Predictive%20Outbound%20Campaign%20with%20Amazon%20Connect.png)
+
+In today's fast-paced world, maintaining seamless communication with customers is crucial for businesses across all industries. Whether you're a financial institution, a healthcare provider, or an e-commerce giant, ensuring that customers stay engaged is vital. When your business requires them to complete necessary tasks on time, it becomes critical.
+
+Put yourself in the shoes of a contractor working in a highly regulated environment, who’s required to complete DBS checks every 3mths to secure their ongoing employment. Or an online learner whose course upgrade is delayed, cancelled or withdrawn due to a missed deadline. A self-employed worker whose license to trade and insurance cover depends upon the timely completion of skill-based exams.
+
+Risking their eligibility for a role, medical procedure, professional qualification or trading opportunity due to missing documents and information can have a dramatic and immediate effect.
+
+## Find out how Amazon Connect Helps Customers
+
+In this blog post, we'll explore how you can leverage the power of Amazon Connect and various AWS services to streamline outbound dialling, among other automated communication options. We'll specifically focus on reminding customers to submit important documents, offering email instructions, and implementing text message reminders, whilst also enhancing customer experience and satisfaction.  
+
+## Proactive, Personalised Outbound Campaigns  
+
+With its seamless integration capabilities, Amazon Connect paves the way for a simplified and automated communication process. Our use case for this blog is a common challenge that businesses face: customers forgetting to submit important documents or complete crucial tasks. Amazon Connect and AWS offer the building blocks to a deliver a valuable solution by allowing you to create and tailor outbound dialling campaigns targeted at these specific scenarios. By leveraging variations of our solution, you can proactively remind customers about outstanding tasks, ensuring that they stay on track and meet their obligations.
+
+The campaign can be manned, enabling customers to speak to an agent as soon as they receive the call (predictive dialling) or unmanned(progressive dialling), presenting them with a spread of options for follow-up and further communication.
+
+Configuration options include call scheduling by working hours, contacts’ data objects and event triggers, as well as selection of an appropriate Call Identifier to improve call acceptance rate.
+
+## How to Set Up a Predictive Outbound Campaign in Amazon Connect
+
+1\. Upload a CSV File to Amazon S3; this contains the necessary details for each customer targeted by the campaign, including their phone number and email address.
+
+2\. The CSV File is picked up by the Campaign CSV Processor Lambda Function, which uploads the necessary information to Amazon DynamoDB and an Amazon Pinpoint segment.
+
+3\. A campaign Administrator creates a Journey in Amazon PinPoint, and publishes using the segment created in the previous step.
+
+4\. Amazon Connect dials out to the customer. The contact flow that is used for the outbound dial leverages Answering Machine Detection(AMD) to inform the next action.
+
+5\. If the call is answered, the customer is informed that they have some outstanding actions. They are given the option to request an email containing the instructions required to complete the task, with an additional option to receive a text message reminder in the short future. The customer may also request to speak to a member of the team; in this case, the customer is placed into a queue to be handled by the next available agent.
+
+6\. If the customer requests instructions via email, Amazon Connect invokes the Send Email Instructions Lambda Function. This looks up the customer’s phone number in the Campaign Table, where the customer’s email address can be found.
+
+7\. At this point, an email is sent to the customer via the Simple Email Service (SES) API.
+
+8\. If the customer requests a text message reminder in the short future, Amazon Connect invokes the Schedule Text Reminder function which uses the customer’s phone number to update their record in the Campaign Table, adding an attribute 'TextReminderDate' with a date XX number of days from today. (NB. The number of days in the future can be configured within the Schedule Text Reminder environment variables, or the function can be extended to allow the customer to choose the number of days.)
+
+9\. Once a day, Amazon EventBridge invokes the Send TextReminder Lambda function, using an EventBridge Rule on a schedule.
+
+10\. The Send Text Reminder function performs a scan on the Campaign Table and filters the records that have a reminder scheduled for that day’s date.
+
+11\. Finally, the Amazon Simple Notification Service (SNS) is leveraged to send a text message reminder to each customer via the SNS API.
+
+This is just one of the multiple, automated outbound campaign options available with Amazon Connect. To learn more about tailoring a solution for _your_ business, [contact CloudInteract’s engineering team today](https://www.cloudinteract.io/contact).
+
+{{ include\_custom\_fonts({"Aileron":\["Black","Bold","Bold Italic","Extra Bold","Extra Bold Italic","Extra Light","Extra Light Italic","Light","Light Italic","Regular","Regular Italic","Semi Bold","Semi Bold Italic","Thin","Thin Italic"\]}) }\}

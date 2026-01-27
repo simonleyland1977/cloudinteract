@@ -1,0 +1,167 @@
+---
+title: Demystifying Generative AI
+date: '2024-11-13 01:26:00'
+author: CloudInteract Team
+category: Adoption and Change
+image: /images/resources/demystifying-generative-ai.png
+tags: []
+---
+It’s the great promise of our time. AI will revolutionise our contact centres, creating more productive agents, happier customers and better bottom lines. Like any new technology, there’s a lot of uncertainty, a lot of unknowns and a good deal of snake oil. How are leaders supposed to know where to invest, what groundwork is needed, when to buy verses build?
+
+### Cutting through the hype
+
+Let’s start with what we mean, by defining _how_ AI will be used in contact centres. After all, AI is merely the name we give to the technology before we’ve worked out what to do with it.
+
+For the purposes of this blog, we're going to talk about creating solutions that assist agents with answering customer queries, by presenting them relevant information, crafting replies, summarising conversations etc. This same approach could be used to answer customer queries directly but there is considerable angst about doing this with the current state of the technology. Instead, agents can act as a filter and quality gate, processing the information being given to them and relaying it to the customer. This is also a good way to train any AI models for any potential future “direct to customer” application.
+
+The benefit of this approach is that agents don’t need to spend time researching or finding answers to questions or producing well-crafted literary prose for communications. They can, instead, focus on ensuring that the information being presented is correct and that customer questions are being answered. Customers still engage with a human agent, but one who is better informed and faster to answer.
+
+The downside is that there is a risk that agents will become over-dependant on the system feeding them information and will fail to perform their checking function to prevent erroneous or incomprehensible information being delivered to customers.
+
+If we wanted to build such a system, what “AI parts” do we need, how do they work, and how do we combine them? I believe that if leaders have a basic understanding of the technology that underpins what we currently call “Generative AI” then they will be in a better position to make decisions on how best to apply it to their organisation.
+
+### 101 – How LLMs really work
+
+If you and I met for coffee and, as we got up to leave I said, “See you later, alligator”, what would you say?  Chances are high you would reply with the correct finish to that sentence, “In a while, crocodile”.
+
+If a coworker greets you with “First come, first…”, you will probably reply “…served!”, whilst wondering if you’d missed out on morning snacks.
+
+This works because we’ve learnt these common phrases and so we know that they are the most likely endings to the sentence that was started. There’s nothing grammatically incorrect about the sentence “First come, first disappointed”; it’s just not a very likely sentence.
+
+To express this concept in mathematical terms, we can complete sentences by using the most probable answer: the one with the highest probability.
+
+This is how Large Language Models (LLMs) work. Imagine a database of all the words, parts of words, sentences and phrases you know and their relationships to each other. Each one would have a probability associated with it. Some would be high (such as the relationship between “first come” and “first served”), others less so.  
+
+Generative AI uses these LLMs to complete whatever input it’s been given. So, in a very simple example (using Amazon Bedrock and the Titan Text G1 – Premier LLM):
+
+![A close-up of a white rectangular objectDescription automatically generated](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/666ad431a2dd970e1461156b_8dc16a92.png)
+
+A LLM isn’t smart, or magic, or reasoning over what you say. All it wants to do is complete the input it’s been given.
+
+![A close-up of a computer screenDescription automatically generated](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/666ad4402bc41bb2eadc9f3a_d494e325.png)
+
+When we scale this up to more complex examples, the same rules hold true, but at scale.
+
+What actually happens is that the Generative AI system will produce one word at a time, based on probability, and then feed that back into the model to generate the second word. For example, for an input “Generate a haiku about cheese”, the actual inputs fed into the LLM, and the output would be:
+
+Input
+
+Output
+
+Generate a haiku about cheese
+
+Soft
+
+Generate a haiku about cheese: Soft
+
+Soft and
+
+Generate a haiku about cheese: Soft and
+
+Soft and Creamy
+
+Generate a haiku about cheese: Soft and Creamy,
+
+Soft and Creamy, with
+
+Generate a haiku about cheese: Soft and Creamy, with
+
+Soft and Creamy, with a
+
+Generate a haiku about cheese: Soft and Creamy, with a
+
+Soft and Creamy, with a rind
+
+Generate a haiku about cheese: Soft and Creamy, with a rind
+
+Soft and Creamy, with a rind that’s
+
+…and so on.
+
+This also works at the conversation level. When you have a conversation with an LLM-backed AI system, every message you send also includes the full conversation history up until that point. That’s how the system “knows” the context: it’s being given the full conversation history each time.
+
+The key thing to remember here is that all the information is contained within the LLM, and all answers come from there. It takes a huge amount of time and resources to produce these models and so they are “stuck” at a point in time when they were trained, like talking to a ghost from a particular time in the past. They also don’t know anything about how your contact centre runs or how to answer any specific questions about your products. We’ll address both points next.
+
+### What RAG is and how it works
+
+Let’s ask our model about Eurovision:
+
+![A screen shot of a computer screenDescription automatically generated](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/666ad503132da3131c45ae93_4e88b79a.png)
+
+The problem here is that we are asking this question in 2024 but the model was trained in 2023. It is “stuck in time” and has no knowledge past that point.
+
+![A white rectangular object with textDescription automatically generated](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/666ad503da6c6b5d2ccec127_af35504a.png)
+
+Remembering what we know about how Generative AI works by trying to complete inputs based on the most probable next work, let’s modify our input prompt. We’re going to tell it who won, and _then_ ask it.
+
+![A screenshot of a computerDescription automatically generated](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/666ad50463a3b0aba3f853f0_339c3e54.png)
+
+Surprised? Underwhelmed? By providing additional relevant information, we can improve our answers. This is the essence of Resource Augmented Generation (RAG), albeit on a smaller scale.
+
+The simplest way to think about RAG is that the system performs a search in real-time against a pre-configured database and uses those results as part of the input. Usually, the database needs to be in a very specific format so that searching uses the input provided generates good results and can then return just the relevant records (a similar technology to how LLM probability works – these databases store vectors that implement Approximate Nearest Neighbour algorithms). The databases are called vector databases (or vector search databases) and can contain document references, website references, or traditional database data.
+
+When a user asks a question or provides other input, a search is made of this data store using that input. Any results are then fed back, as part of the input to the model, in a similar way that I fed in the information about the 2024 Eurovision winner.
+
+This means that answers are more likely to be correct, will be as up to date as the source data is, and can be tightly scoped to the problem domain you are trying to solve for. It is possible in the prompt to ensure that only data returned from the RAG search is used in the generation of an answer rather than any generic data from in the LLM which may not be accurate or relevant to the question.‍
+
+### Applying LLMs and RAG to the Contact Centre
+
+The adage is true: garbage in, garbage out. The successfulness of any RAG-based model is directly related to how complete and accurate the data is. Regardless of which vendor you choose or what your solution looks like, making sure you are compiling and maintaining an up-to-date repository of the “knowledge” in your contact centre is one of the most important things you can be doing today.
+
+When we work with customer experience teams (and we like to get involved on the floor, talking to agents, sitting beside them through their day to understand how they work) we see this knowledge in all sorts of places: training materials, how-to guides, notepads, sticky notes, word of mouth etc. One of the first tasks is to ensure that this knowledge is captured, categorized and stored.
+
+Only then we can start to represent this knowledge as a vector search database and begin working with the business on what interacting with this might look like. It’s a very iterative process that involves analysing the types of questions agents receive, and where they go to answer them. Once we’re ready we slowly start to suggest answers to agents, collecting their feedback as we go to help us improve the experience of both the data and when it is offered.
+
+We can also use this approach to help agents to produce content, not just assist in answering questions. Sometimes we will combine information from several places, such as in this example:
+
+In an omni-channel contact centre, an agent is reviewing an inbound email requesting a cancellation. The agent asks the system to draft an email response by clicking a button in their custom email client labelled “Draft AI Reply”. Using the body of the email as a search input to a vector search database the correct policy information is retrieved. This is then used, along with the original email, as input to create a response.
+
+Actual input used to model (not shown to agent):
+
+_Information from the company policies and guidelines: "...general, holidays may be cancelled up to 14 days in advance with no penalty. Holidays cancelled after this time incur 50% penalty. Any refunds can take up to 14 days to be returned to the customer's bank account. For escalations or further questions, contact your Team Leader..."_
+
+_The human agent's name is Tom Morgan and his job title is Customer Advisor, InterConnect Experiences. Draft a professional and courteous email response to the email, as if it were from the human agent and which answers the email based on the company policies and guidelines. The email subject is 'Cancellation of Booking ID #45321'. The email body is: 'Unfortunately, due to personal reasons, I need to cancel my booking for the Tuscan Cooking Experience scheduled for August 2024. My booking ID is #45321. Could you please guide me through the cancellation process and let me know about any applicable refunds? Thank you for your assistance, Alexis'_
+
+Output:
+
+![A close-up of a messageDescription automatically generated](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/666ad51728df385646a97e6a_3f9c2ea0.png)
+
+### Choosing an LLM
+
+The choice of Large Language Model can make a significant difference to the quality of responses. The amount and quality of source data used to train the model both play a part in determining what the output looks like.  
+
+It is possible to create your own models, using only data you specify; however, this is a costly and resource-intensive process. Unless you have a very large amount of source data and a desire to create content that matches the style of existing content very closely, it will be necessary for you to choose one of the vendor-provided LLMs.
+
+Things to consider when choosing a model include token size (how big can the inputs and outputs be), cost and intended usage. There are comparison tools out there to help you decide, but I’ve found that a good way to decide is just to try out a few and get a feel for the quality of the answers you’re being presented with, based on sample questions that match your intended use case.
+
+Amazon Bedrock can be a helpful tool for performing this exercise. Bedrock provides access to over 30 different models from a variety of providers, plus a Chat Playground to let you quickly try them out. New models are being added all the time, so it’s worth checking back regularly. If you prefer to use Microsoft technology, Azure AI Studio provides a similar Model catalog with a different (and larger) collection of models.
+
+![A screenshot of a computerDescription automatically generated](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/666ad549911a07e0e1de8215_71f821e7.png)
+
+Simply chose your model, and you’ll be presented with a chat interface, together with some sample prompts if you’re not sure where to start. You can configure some settings that control how the model behaves. The most impactful of these is Temperature. Thinking back to the explanation of how a LLM works, increasing the temperature means that the model will choose results from a lower probability. Set the temperature to 0.5 and word matches will only need to score 50% and above to be included for selection, resulting in a more creative but possibly less understandable result. Set the temperature to 0 and only 100% probability matches will be returned, resulting in more formulaic answers.
+
+### Why Pricing is Hard
+
+It can be hard to accurately predict the cost of using LLMs, and even harder to explain why it’s so hard. Pricing is based on consumption, but not on usual metrics such as number of questions asked.
+
+Instead, pricing is based on tokens. To fully understand this, we need to revisit our original explanation of how LLMs work and correct some oversimplifications.
+
+LLMs don’t actually store the relationships between words and phrases, they store the relationships between _tokens_. A token is a common sequence of characters, which might be a word or might be part of a word.
+
+![A close up of a logoDescription automatically generated](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/666ad56463a3b0aba3f885d7_0a57592c.png)
+
+In this example, 8 tokens were used to construct the sentence. For pricing estimates, a good rule of thumb is that one token generally corresponds to 0.75 word in the English language (100 tokens = 75 words). Tokens are counted both on the way in (input tokens) and in the answers given (output tokens).
+
+For the model we’ve been using in this article (Amazon Titan Text Premier), the maximum number of tokens (both directions combined) is 32,000. That sounds like a lot, until you remember that needs to include both conversation history and any information from RAG. At the time of writing this, pricing for this model is $0.0005 per 1000 input tokens and $0.0015 per output tokens.
+
+To predict the cost, it is necessary to estimate the likely length of both question and answer, how long each conversation might be, and how much RAG information is likely to be appended, then calculate the input and output cost of the conversation, before scaling up to the number of likely conversations.
+
+Changing the model will change the pricing but may also change the behaviour: a different model may provider longer or shorter answers or require more or less input information to arrive at a suitable answer.  
+
+### Conclusion
+
+Both LLMs and RAG can have a significant positive impact on agent experience in contact centre, but only if implemented properly and considerately. Without knowing the fundamentals of how they work, leaders cannot make informed choices about how to move forward with their AI strategy.  
+
+In a future blog post we will look at how to move to the next stage: AI-enhancing your business processes with Action Groups.
+
+{{ include\_custom\_fonts({"Aileron":\["Black","Bold","Bold Italic","Extra Bold","Extra Bold Italic","Extra Light","Extra Light Italic","Light","Light Italic","Regular","Regular Italic","Semi Bold","Semi Bold Italic","Thin","Thin Italic"\]}) }\}

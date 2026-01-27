@@ -1,0 +1,206 @@
+---
+title: 'Unlock the Power of Amazon Connect: Enabling Search for Evaluated Contacts'
+date: '2024-11-16 12:38:13'
+author: CloudInteract Team
+category: Integration
+image: >-
+  /images/resources/unlock-the-power-of-amazon-connect-enabling-search-for-evaluated-contacts.jpg
+tags: []
+---
+## ![](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/643d50230aff904d92cee7ab_Custom%20Search%20attributes%20setup%20Amazon%20Connect.jpg)
+
+Agent evaluation is an important consideration for all contact centre managers; the ability to gauge performance, highlight star performers, and offer help and training to those who need it. However, searching for those evaluations isn't available out-of-the-box with Amazon Connect.
+
+So we're going to show you how to find, filter and rank your agent evaluations in this tech how-to guide from one of our top solutions architects, Alex Baker.
+
+‍
+
+When evaluation forms became available in Amazon Connect back in November 2022 ([See AWS blog here](https://aws.amazon.com/about-aws/whats-new/2022/11/amazon-connect-contact-lens-agent-performance-evaluation-forms/)), they came just in the nick of time for a couple of customer use cases we’ve been working on.  
+
+Two of a customer's business units have existing quality forms which are not integrated with their current contact centre platform.  The migration to Amazon Connect is a great opportunity to rectify that.  We’ve configured equivalent forms within AWS Connect so that they can evaluate directly from the contact search portal.
+
+One thing we noticed about the Connect evaluation forms functionality however, is that once you’ve performed evaluations on contacts, there’s no apparent way of searching for previously evaluated contacts (at least when performing them manually, as opposed to using Contact Lens).
+
+‍
+
+### **Overview - Enabling Search for Evaluated Contacts**
+
+For this blog, I’ve put together a quick Proof of Concept showing how we can utilise a Lambda function, plus some custom search attributes, to allow us to search and filter for contacts which have been evaluated.  I also included a grading of the evaluation scores as a second attribute, so we can filter for contacts with a “Low”, “Medium” or “High” grade.
+
+The components we’ll use are as follows:
+
+·       [Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/what-is-amazon-connect.html) (specifically Contact Search and Evaluations)
+
+·       [S3](https://aws.amazon.com/s3/) (existing Evaluations bucket will have a Lambda trigger placed on it)
+
+·       [Lambda](https://aws.amazon.com/lambda/)
+
+‍
+
+![Diagram showing how Lambda function used to enable evaluated contact search in Amazon Connect](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/66b246b52a79c4fa09ebdd17_643d4efa0aff9062c8ced987_Amazon%2520Connect%2520Lambda%2520Function.png)
+
+#### **Prerequisites**
+
+·       An AWS account with access to the services mentioned
+
+·       An [Amazon Connect instance](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-instances.html), configured and taking inbound calls
+
+·       A pre-configured [Evaluation form](https://docs.aws.amazon.com/connect/latest/adminguide/evaluations.html) in Amazon Connect
+
+### **How To: Make your Evaluations searchable in Amazon Connect**
+
+**Confirm Evaluations storage location**
+
+1.     Navigate to your Amazon Connect instance overview, and to Data storage
+
+2.     Make a note of the S3 bucket and folder where your Evaluations are stored
+
+‍
+
+![Screen Grab Amazon Connect where to configure Agent evaluations](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/66b246b52a79c4fa09ebdd0f_643d4f39835c8937ec9c96f6_Amazon%2520Connect%2520Evaluations%2520storage%2520location.jpeg)
+
+‍
+
+### **Configure Lambda function**
+
+In the Lambda console, add a new Python Lambda function, and use the code provided below.  You can adjust the gradings for the evaluation score if required.
+
+You’ll need to assign appropriate IAM permissions to allow the Lambda function to call S3 and Amazon Connect.
+
+import boto3  
+import json  
+import os  
+import urllib.parse  
+  
+  
+def lambda\_handler(event, context):  
+    # Get the S3 bucket name and key from the event  
+    print(event)  
+    s3\_bucket = event\["Records"\]\[0\]\["s3"\]\["bucket"\]\["name"\]  
+    s3\_key = urllib.parse.unquote\_plus(  
+        event\["Records"\]\[0\]\["s3"\]\["object"\]\["key"\], encoding="utf-8"  
+    )  
+    print(s3\_key)  
+    print(s3\_bucket)  
+  
+    # Load the JSON file from S3  
+    s3\_client = boto3.client("s3")  
+    s3\_object = s3\_client.get\_object(Bucket=s3\_bucket, Key=s3\_key)  
+    json\_content = s3\_object\["Body"\].read().decode("utf-8")  
+    json\_data = json.loads(json\_content)  
+  
+    # Extract the contactId from the metadata array in the JSON file  
+    contact\_id = json\_data\["metadata"\]\["contactId"\]  
+  
+    # Extract the score from the metadata array in the JSON file  
+    percentage = json\_data\["metadata"\]\["score"\]\["percentage"\]  
+  
+    # Assign a grading according to the percentage score  
+    if percentage < 60:  
+        grade = "Low"  
+    elif percentage < 81:  
+        grade = "Medium"  
+    else:  
+        grade = "High"  
+  
+    # Call the Amazon Connect update\_contact\_attributes API to add the'contactEvaluated' attribute  
+    connect\_client = boto3.client("connect")  
+    instance\_id = os.environ\["INSTANCE\_ID"\]  
+    response = connect\_client.update\_contact\_attributes(  
+        InstanceId=instance\_id,  
+        InitialContactId=contact\_id,  
+        Attributes={"contactEvaluated": "True", "evaluationGrade": grade},  
+    )  
+  
+    # Return the response from the update\_contact\_attributes API call  
+    return response
+
+We’ll need to add an environment variable, ‘INSTANCE\_ID’, in the Configuration of the Lambda function. Add your Connect instance ID.
+
+‍
+
+![Screen grab showing where to add Instance ID in Connect for Lambda config](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/66b246b52a79c4fa09ebdd12_643d4f91a488895beeed494d_Configure%2520Lambda%2520function%2520Amazon%2520Connect.jpeg)
+
+‍
+
+### **Add Lambda trigger for Evaluations S3 bucket**
+
+In order to get the Lambda function to run when an evaluation is completed, we need to allow it to be triggered by an S3 PUT.
+
+In the Lambda function overview, click ‘Add Trigger’, and select S3 as the source.  Select the bucket that we noted down earlier. Choose Event type ‘PUT’.
+
+Also add a prefix, to select the Contact Evaluations folder within your Connect bucket that we noted down earlier.  For example ‘connect/exampleinstancename/ContactEvaluations.  Save the trigger.
+
+We should end up with a trigger set up with your bucket and folder names specified:
+
+‍
+
+![Screen grab Amazon Connect showing trigger set for Lambda function](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/66b246b52a79c4fa09ebdd03_643d4fbbd8bcb3024b66e948_Amazon%2520Connect%2520trigger%2520set.jpeg)
+
+‍
+
+### **Setting up custom search attributes in Connect contact search**
+
+So that we can search for evaluated contacts, and filter for those with a certain grading, we need to add a couple of custom search attributes.
+
+In Connect, navigate to contact search.  Click ‘Add Filter’, then ‘Custom contact attribute’:
+
+‍
+
+![Screen grab showing where to add custom attribute filter in Amazon Connect](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/66b246b52a79c4fa09ebdd07_643d50230aff904d92cee7ab_Custom%2520Search%2520attributes%2520setup%2520Amazon%2520Connect.jpeg)
+
+‍
+
+Click on the settings cog icon in the attributes pop out:
+
+‍
+
+![Screen grab Amazon Connect showing how to change attribute settings](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/66b246b52a79c4fa09ebdcfe_643d5040064185b33fdadc18_Custom%2520Search%2520attributes%2520settings%2520Amazon%2520Connect.jpeg)
+
+‍
+
+In the new tab which pops out, we can add contact attributes which should be searchable.  Note that these only apply for new calls you make after adding these.
+
+Add the two attributes that we’ve referenced in the Lambda function – ‘contactEvaluated’ and ‘evaluationGrade’, clicking ‘+ Add Key’:
+
+‍
+
+![Screen grab showing how to add keys to custom attributes Amazon Connect](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/66b246b52a79c4fa09ebdcfb_643d507bd87b90b34e9f2a3f_Test%2520custom%2520attribute%2520Amazon%2520Connect.jpeg)
+
+‍
+
+### **Time to test evaluated contact search with filters in Amazon Connect**
+
+Finally, make some test calls, and perform some evaluations on those calls.  Try a mixture of good and poor evaluation results, so that we can test the grading search.
+
+Once the test calls and evaluations are complete, we can return to Connect contact search and use our custom search attributes to find the calls.  
+
+Click ‘Add Filter’ and select ‘Custom contact attribute’.  From the Attribute key drop-down, select our ‘contactEvaluated’ attribute.  In the ‘Attribute value(s)’ field, type ‘True’.
+
+‍
+
+![Screen grab Amazon Connect how to create filter with custom attribute](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/66b246b52a79c4fa09ebdd1a_643d527028fee1f2d781ebaf_Amazon%2520Connect%2520contact%2520Evaluated.jpeg)
+
+‍
+
+Searching with the above filter would bring back any calls in the selected timeframe which have had an evaluation performed.  But let’s add in the other filter for evaluation grade, and we’ll look for those which have a ‘Low’ score.  Add another filter for custom attribute.  Select the ‘evaluation Grade’ key from the drop-down.  And type ‘Low’ as the value:
+
+‍
+
+![Screen grab Amazon Connect adding filter for low agent evaluation grade](https://cdn.prod.website-files.com/63e4ef0e836949668d5d81f6/66b246b52a79c4fa09ebdd0b_643d509a5256f0607b18166a_Set%2520evaluation%2520grade%2520Amazon%2520Connect.jpeg)
+
+‍
+
+We are left with a list of all our calls which have been evaluated, and have a grade of ‘Low’.
+
+In this post, we used the following components to allow us to search for contacts which have been evaluated, and have achieved a score within a certain grade:
+
+·       Lambda function with an S3 trigger
+
+·       Custom contact search attributes in Amazon Connect
+
+#### ‍So what does this mean for you? 
+
+In conclusion, by using a Lambda function and custom search attributes in Amazon Connect, you can quickly search and filter for previously evaluated contacts based on their evaluation scores. This streamlines your contact centre's evaluation process and enables you to optimise your agent performance management. Don't miss out on the benefits of Amazon Connect's evaluation forms - follow these steps and you'll make an instant improvement to the efficiency of your contact centre.
+
+{{ include\_custom\_fonts({"Aileron":\["Black","Bold","Bold Italic","Extra Bold","Extra Bold Italic","Extra Light","Extra Light Italic","Light","Light Italic","Regular","Regular Italic","Semi Bold","Semi Bold Italic","Thin","Thin Italic"\]}) }\}
