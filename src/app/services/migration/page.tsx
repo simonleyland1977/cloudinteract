@@ -34,7 +34,7 @@ export default function MigrationPage() {
         <div className="flex flex-col min-h-screen bg-background">
             <MarketingHeader />
 
-            <main className="flex-1 pt-16">
+            <main className="flex-1 pt-20">
                 {/* Hero Section */}
                 <section className="w-full py-24 md:py-32 relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-500/5" />

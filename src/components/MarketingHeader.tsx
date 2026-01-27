@@ -10,15 +10,18 @@ export function MarketingHeader() {
     return (
         <header className="fixed w-full z-[100] top-0 border-b border-[var(--border)] bg-[var(--background)]/80 backdrop-blur-xl">
             <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-                <Link href="/" className="flex items-center gap-2">
+                <Link href="/" className="flex items-center gap-3">
                     <Image
-                        src="/logos/logo-full.svg"
+                        src="/logos/logo-icon-color.png"
                         alt="CloudInteract"
-                        width={240}
+                        width={48}
                         height={48}
-                        className="h-12 w-auto"
+                        className="h-10 w-auto"
                         priority
                     />
+                    <span className="text-2xl font-bold tracking-tight text-[var(--foreground)]">
+                        CloudInteract.io
+                    </span>
                 </Link>
                 <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-[var(--foreground)]/60">
                     {siteConfig.mainNav.map((item) => (

@@ -6,15 +6,20 @@ export function MarketingFooter() {
     return (
         <footer className="w-full py-12 px-6 border-t border-[var(--border)] bg-[var(--card)]">
             <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-                <div className="flex items-center gap-4">
-                    <Image
-                        src="/logos/logo-full.svg"
-                        alt="CloudInteract"
-                        width={160}
-                        height={32}
-                        className="h-8 w-auto"
-                    />
-                    <span className="text-sm text-[var(--foreground)]/60">
+                <div className="flex items-center gap-3">
+                    <Link href="/" className="flex items-center gap-2">
+                        <Image
+                            src="/logos/logo-icon-color.png"
+                            alt="CloudInteract"
+                            width={40}
+                            height={40}
+                            className="h-8 w-auto"
+                        />
+                        <span className="text-lg font-bold tracking-tight text-[var(--foreground)]">
+                            CloudInteract.io
+                        </span>
+                    </Link>
+                    <span className="text-sm text-[var(--foreground)]/60 ml-2 border-l border-[var(--border)] pl-4">
                         © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
                     </span>
                 </div>
