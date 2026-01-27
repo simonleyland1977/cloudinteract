@@ -29,7 +29,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
                 image: data.image || null,
                 author: data.author || 'CloudInteract Team',
                 tags: data.tags || [],
-                readingTime: '5 min read', // Placeholder or calculation
+                readTime: '5 min read', // Placeholder or calculation
             } as BlogPost;
         });
 
@@ -63,7 +63,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
             author: data.author || 'CloudInteract Team',
             tags: data.tags || [],
             content, // Return content for individual post view
-            readingTime: '5 min read',
+            readTime: '5 min read',
         } as BlogPost;
     } catch (e) {
         return null;

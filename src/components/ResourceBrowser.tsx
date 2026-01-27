@@ -37,8 +37,8 @@ export function ResourceBrowser({ initialPosts, categories }: ResourceBrowserPro
                     <button
                         onClick={() => setSelectedCategory('All')}
                         className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === 'All'
-                                ? 'bg-blue-600 text-white shadow-md'
-                                : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                            ? 'bg-blue-600 text-white shadow-md'
+                            : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                             }`}
                     >
                         All
@@ -48,8 +48,8 @@ export function ResourceBrowser({ initialPosts, categories }: ResourceBrowserPro
                             key={category}
                             onClick={() => setSelectedCategory(category)}
                             className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === category
-                                    ? 'bg-blue-600 text-white shadow-md'
-                                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                ? 'bg-blue-600 text-white shadow-md'
+                                : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                                 }`}
                         >
                             {category}
@@ -105,7 +105,7 @@ export function ResourceBrowser({ initialPosts, categories }: ResourceBrowserPro
                                 <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-3">
                                     <span>{post.date}</span>
                                     <span>•</span>
-                                    <span>{post.readingTime || '5 min read'}</span>
+                                    <span>{post.readTime || '5 min read'}</span>
                                 </div>
 
                                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
