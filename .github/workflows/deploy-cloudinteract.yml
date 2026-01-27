@@ -1,0 +1,68 @@
+# Deploy CloudInteract App
+# Deploys the Amplify Gen 2 backend for CloudInteract
+
+name: Deploy CloudInteract
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+    paths:
+      - 'amplify/**'
+      - 'src/**'
+      - 'package.json'
+      - '.github/workflows/deploy-cloudinteract.yml'
+  
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  deploy-backend:
+    name: Deploy CloudInteract Backend to ${{ github.event.inputs.environment || (github.ref == 'refs/heads/staging' && 'staging') || 'dev' }}
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/staging' && 'staging') || 'dev' }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy Amplify backend
+        run: |
+          npx ampx pipeline-deploy \
+            --branch ${{ github.ref_name }} \
+            --app-id drqhrtumh6pih
+        env:
+          CI: true
