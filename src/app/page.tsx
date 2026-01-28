@@ -6,6 +6,7 @@ import { SplitHero } from "@/components/SplitHero"
 import { FeaturesSection } from "@/components/FeaturesSection"
 import { SolutionsSection } from "@/components/SolutionsSection"
 import { WhyConnectSection } from "@/components/WhyConnectSection"
+import { MarketplaceShowcase } from "@/components/MarketplaceShowcase"
 import { MarketingHeader } from "@/components/MarketingHeader"
 import { MarketingFooter } from "@/components/MarketingFooter"
 
@@ -18,6 +19,7 @@ export default function Home() {
         <main className="flex-grow">
           <SplitHero />
           <WhyConnectSection />
+          <MarketplaceShowcase />
           <SolutionsSection />
         </main>
         <MarketingFooter />
