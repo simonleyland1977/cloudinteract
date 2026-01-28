@@ -1,13 +1,69 @@
+"use client"
+
+import { useState } from "react";
 import { MarketingHeader } from "@/components/MarketingHeader";
 import { MarketingFooter } from "@/components/MarketingFooter";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
-
-export const metadata = {
-    title: 'Contact Us | CloudInteract',
-    description: 'Get in touch with CloudInteract to transform your contact center with AI-powered solutions.',
-};
+import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
 
 export default function ContactPage() {
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        company: '',
+        interest: '',
+        message: ''
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        setFormData(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+        setErrorMessage('');
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to submit form');
+            }
+
+            setSubmitStatus('success');
+            setFormData({
+                firstName: '',
+                lastName: '',
+                email: '',
+                company: '',
+                interest: '',
+                message: ''
+            });
+        } catch (error) {
+            console.error('Form submission error:', error);
+            setSubmitStatus('error');
+            setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <div className="flex flex-col min-h-screen bg-slate-950 text-slate-50">
             <MarketingHeader />
@@ -89,7 +145,21 @@ export default function ContactPage() {
                         {/* Contact Form */}
                         <div className="bg-slate-900/50 rounded-2xl border border-slate-800 p-8">
                             <h2 className="text-2xl font-bold text-white mb-6">Send us a Message</h2>
-                            <form className="space-y-6">
+
+                            {submitStatus === 'success' && (
+                                <div className="mb-6 p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 flex items-center gap-3">
+                                    <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                                    <span>Thank you! We'll be in touch soon.</span>
+                                </div>
+                            )}
+
+                            {submitStatus === 'error' && (
+                                <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400">
+                                    {errorMessage}
+                                </div>
+                            )}
+
+                            <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
                                         <label htmlFor="firstName" className="block text-sm font-medium text-slate-300 mb-2">
@@ -99,6 +169,8 @@ export default function ContactPage() {
                                             type="text"
                                             id="firstName"
                                             name="firstName"
+                                            value={formData.firstName}
+                                            onChange={handleChange}
                                             className="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             placeholder="John"
                                         />
@@ -111,6 +183,8 @@ export default function ContactPage() {
                                             type="text"
                                             id="lastName"
                                             name="lastName"
+                                            value={formData.lastName}
+                                            onChange={handleChange}
                                             className="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             placeholder="Doe"
                                         />
@@ -119,12 +193,15 @@ export default function ContactPage() {
 
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
-                                        Email
+                                        Email *
                                     </label>
                                     <input
                                         type="email"
                                         id="email"
                                         name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
                                         className="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                         placeholder="john@company.com"
                                     />
@@ -138,6 +215,8 @@ export default function ContactPage() {
                                         type="text"
                                         id="company"
                                         name="company"
+                                        value={formData.company}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                         placeholder="Your Company"
                                     />
@@ -150,6 +229,8 @@ export default function ContactPage() {
                                     <select
                                         id="interest"
                                         name="interest"
+                                        value={formData.interest}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                     >
                                         <option value="">Select an option</option>
@@ -168,6 +249,8 @@ export default function ContactPage() {
                                         id="message"
                                         name="message"
                                         rows={4}
+                                        value={formData.message}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                                         placeholder="Tell us about your contact center needs..."
                                     ></textarea>
@@ -175,10 +258,11 @@ export default function ContactPage() {
 
                                 <button
                                     type="submit"
-                                    className="w-full inline-flex items-center justify-center h-12 px-6 rounded-lg bg-blue-600 font-semibold text-white transition-all hover:bg-blue-500 hover:scale-105"
+                                    disabled={isSubmitting}
+                                    className="w-full inline-flex items-center justify-center h-12 px-6 rounded-lg bg-blue-600 font-semibold text-white transition-all hover:bg-blue-500 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                                 >
-                                    Send Message
-                                    <Send className="ml-2 h-4 w-4" />
+                                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                                    {!isSubmitting && <Send className="ml-2 h-4 w-4" />}
                                 </button>
                             </form>
                         </div>

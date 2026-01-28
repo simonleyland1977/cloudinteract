@@ -1,0 +1,10 @@
+{
+    "name": "create-contact-lambda",
+    "version": "1.0.0",
+    "description": "Lambda function to create CRM contacts from public form submissions",
+    "main": "index.js",
+    "dependencies": {
+        "@aws-sdk/client-appsync": "^3.0.0",
+        "@aws-sdk/signature-v4": "^3.0.0"
+    }
+}
