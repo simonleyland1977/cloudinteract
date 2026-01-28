@@ -21,6 +21,7 @@ export const cloudInteractConfig: SiteConfig = {
                 { label: "Managed Services", href: "/services/managed-services" },
                 { label: "Amazon Connect", href: "/solutions/amazon-connect" },
                 { label: "Generative AI", href: "/solutions/genai" },
+                { label: "AWS Marketplace Offers", href: "/marketplace" },
             ]
         },
         {
