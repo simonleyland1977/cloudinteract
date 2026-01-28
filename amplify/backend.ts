@@ -19,7 +19,7 @@ const createContactFn = new Function(backend.stack, 'CreateContactFunction', {
   handler: 'index.handler',
   code: Code.fromAsset(path.join(__dirname, '../lambda/create-contact')),
   environment: {
-    APPSYNC_API_ENDPOINT: backend.data.resources.graphqlApi.graphqlUrl,
+    APPSYNC_API_ENDPOINT: backend.data.resources.graphqlApi.attrGraphQlUrl,
     AWS_REGION: backend.stack.region,
   },
 });
