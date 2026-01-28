@@ -2,8 +2,9 @@ const { SignatureV4 } = require('@aws-sdk/signature-v4');
 const { Sha256 } = require('@aws-crypto/sha256-js');
 const { HttpRequest } = require('@aws-sdk/protocol-http');
 
-const APPSYNC_API_ENDPOINT = process.env.APPSYNC_API_ENDPOINT;
+const APPSYNC_API_ID = process.env.APPSYNC_API_ID;
 const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
+const APPSYNC_API_ENDPOINT = `https://${APPSYNC_API_ID}.appsync-api.${AWS_REGION}.amazonaws.com/graphql`;
 
 /**
  * Lambda function to create CRM contacts from public form submissions
