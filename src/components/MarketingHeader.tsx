@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { MobileMenu } from "@/components/MobileMenu";
 import { siteConfig } from "@/config/site";
 
 export function MarketingHeader() {
@@ -72,11 +73,12 @@ export function MarketingHeader() {
                         </svg>
                     </a>
                     <ThemeToggle />
-                    <Link href="/contact">
+                    <Link href="/contact" className="hidden md:inline-block">
                         <Button size="sm" variant="primary">
                             Book Demo
                         </Button>
                     </Link>
+                    <MobileMenu />
                 </div>
             </div>
         </header>

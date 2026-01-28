@@ -25,12 +25,13 @@ export const cloudInteractConfig: SiteConfig = {
             label: "Who We Serve",
             href: "/industries",
             children: [
-                { label: "Healthcare", href: "/healthcare" },
+                { label: "Healthcare - UK", href: "/healthcare/uk" },
+                { label: "Healthcare - US", href: "/healthcare/us" },
                 { label: "Public Sector", href: "/public-sector" },
-                { label: "Financial Services", href: "/industries/finance" },
-                { label: "Retail", href: "/industries/retail" },
-                { label: "Edtech", href: "/industries/edtech" },
-                { label: "Utilities", href: "/industries/utilities" },
+                { label: "Financial Services", href: "/finance" },
+                { label: "Retail", href: "/retail" },
+                { label: "Edtech", href: "/edtech" },
+                { label: "Utilities", href: "/utilities" },
             ]
         },
         {

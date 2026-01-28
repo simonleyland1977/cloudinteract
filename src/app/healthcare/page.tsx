@@ -1,42 +1,128 @@
 "use client"
 
-import { IndustryPageLayout } from "@/components/IndustryPageLayout"
+import { MarketingHeader } from "@/components/MarketingHeader"
+import { MarketingFooter } from "@/components/MarketingFooter"
+import Link from "next/link"
+import { ArrowRight, MapPin } from "lucide-react"
 
 export default function HealthcarePage() {
     return (
-        <IndustryPageLayout
-            title="Healthcare"
-            subtitle="Reimagined"
-            heroTag="Patient Experience"
-            description="Empower patients with instant, empathetic answers. Reduce anxiety and improve health outcomes with AI-driven triage and scheduling that never sleeps."
-            gradient="from-blue-500 to-cyan-500"
-            trio={{
-                demoTitle: "Patient Triage Demo",
-                tryUrl: "/contact"
-            }}
-            challenges={[
-                {
-                    title: "24/7 Availability",
-                    description: "Immediate responses to common queries like visiting hours, prep instructions, and location, any time of day.",
-                    icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                },
-                {
-                    title: "Empathy & Tone Analysis",
-                    description: "Detect patient distress and adjust response tone or escalate to a human nurse immediately.",
-                    icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                },
-                {
-                    title: "HIPAA Compliant",
-                    description: "Built on AWS HIPAA-eligible services with strict data encryption and access controls.",
-                    icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                }
-            ]}
-            caseStudy={{
-                title: "Use Case: Appointment Scheduling",
-                description: "Reduce no-shows and administrative burden. Our conversational agent can book, reschedule, and cancel appointments directly into your EHR system.",
-                metrics: ["40% Reduction in No-Shows", "2.5hr Admin Time Saved/Day"],
-                quote: "The ability to handle rescheduling automatically has freed our front desk to focus on patients actually in the waiting room."
-            }}
-        />
+        <div className="flex flex-col min-h-screen bg-slate-950">
+            <MarketingHeader />
+            <main className="flex-grow pt-20">
+                {/* Hero Section */}
+                <section className="relative py-24 md:py-32 overflow-hidden">
+                    {/* Background gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-slate-950 to-purple-900/20" />
+
+                    <div className="container mx-auto px-6 relative z-10">
+                        <div className="max-w-4xl mx-auto text-center">
+                            <div className="inline-block px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm font-medium mb-6">
+                                Patient Experience Reimagined
+                            </div>
+
+                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
+                                Healthcare Solutions
+                                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+                                    Built for Your Region
+                                </span>
+                            </h1>
+
+                            <p className="text-lg md:text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
+                                Choose your region to explore AI-powered contact center solutions tailored to your healthcare system's unique requirements and compliance needs.
+                            </p>
+                        </div>
+
+                        {/* Regional Cards */}
+                        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mt-16">
+                            {/* UK Card */}
+                            <Link href="/healthcare/uk" className="group">
+                                <div className="relative bg-slate-900/50 border border-slate-800 rounded-2xl p-8 md:p-10 hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 h-full">
+                                    <div className="flex items-start justify-between mb-6">
+                                        <div className="p-3 bg-blue-500/10 rounded-lg">
+                                            <MapPin className="w-8 h-8 text-blue-400" />
+                                        </div>
+                                        <ArrowRight className="w-6 h-6 text-slate-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all" />
+                                    </div>
+
+                                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                                        United Kingdom
+                                    </h2>
+
+                                    <p className="text-slate-400 mb-6">
+                                        NHS & Private Care solutions with GDPR compliance, NHS Digital integration, and UK-specific healthcare system support.
+                                    </p>
+
+                                    <div className="space-y-2">
+                                        <div className="flex items-center gap-2 text-sm text-slate-500">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                                            <span>NHS System Integration</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-sm text-slate-500">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                                            <span>GDPR & Data Protection</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-sm text-slate-500">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                                            <span>24/7 NHS 111 Support</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+
+                            {/* US Card */}
+                            <Link href="/healthcare/us" className="group">
+                                <div className="relative bg-slate-900/50 border border-slate-800 rounded-2xl p-8 md:p-10 hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10 h-full">
+                                    <div className="flex items-start justify-between mb-6">
+                                        <div className="p-3 bg-purple-500/10 rounded-lg">
+                                            <MapPin className="w-8 h-8 text-purple-400" />
+                                        </div>
+                                        <ArrowRight className="w-6 h-6 text-slate-600 group-hover:text-purple-400 group-hover:translate-x-1 transition-all" />
+                                    </div>
+
+                                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                                        United States
+                                    </h2>
+
+                                    <p className="text-slate-400 mb-6">
+                                        HIPAA-compliant solutions with Epic, Cerner, and major EHR integration, plus insurance verification and billing support.
+                                    </p>
+
+                                    <div className="space-y-2">
+                                        <div className="flex items-center gap-2 text-sm text-slate-500">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                                            <span>HIPAA Compliance</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-sm text-slate-500">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                                            <span>Epic & Cerner Integration</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-sm text-slate-500">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                                            <span>Insurance Verification</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+
+                        {/* Bottom CTA */}
+                        <div className="text-center mt-16">
+                            <p className="text-slate-400 mb-4">
+                                Need a custom solution or covering multiple regions?
+                            </p>
+                            <Link
+                                href="/contact"
+                                className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-medium transition-colors"
+                            >
+                                Contact our team
+                                <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <MarketingFooter />
+        </div>
     )
 }
