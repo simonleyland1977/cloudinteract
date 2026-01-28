@@ -72,12 +72,11 @@ export function MarketingHeader() {
                         </svg>
                     </a>
                     <ThemeToggle />
-                    <Link href="/crm" className="text-sm font-medium text-[var(--foreground)]/60 hover:text-[var(--foreground)] transition-colors">
-                        Sign In
+                    <Link href="/contact">
+                        <Button size="sm" variant="primary">
+                            Book Demo
+                        </Button>
                     </Link>
-                    <Button size="sm" variant="primary">
-                        Book Demo
-                    </Button>
                 </div>
             </div>
         </header>

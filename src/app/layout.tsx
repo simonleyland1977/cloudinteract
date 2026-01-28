@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import ConfigureAmplify from "@/components/ConfigureAmplify";
+import { CookieConsent } from "@/components/CookieConsent";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
 
@@ -38,6 +39,7 @@ export default function RootLayout({
         <ThemeProvider>
           <ConfigureAmplify />
           {children}
+          <CookieConsent />
         </ThemeProvider>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || ""} />
       </body>

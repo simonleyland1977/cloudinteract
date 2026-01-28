@@ -16,11 +16,8 @@ export const cloudInteractConfig: SiteConfig = {
             label: "What We Do",
             href: "/what-we-do",
             children: [
-                { label: "Our Services", href: "/services" },
-                { label: "AI Implementations", href: "/services/ai-implementation" },
-                { label: "Managed Services", href: "/services/managed-services" },
-                { label: "Amazon Connect", href: "/solutions/amazon-connect" },
-                { label: "Generative AI", href: "/solutions/genai" },
+                { label: "Migration and Integration", href: "/services/migration" },
+                { label: "Deploy AI Agents", href: "/solutions/digital-front-door" },
                 { label: "AWS Marketplace Offers", href: "/marketplace" },
             ]
         },
@@ -40,7 +37,7 @@ export const cloudInteractConfig: SiteConfig = {
             label: "Resources",
             href: "/resources",
             children: [
-                { label: "Blog", href: "/resources" }, // Reusing existing resources page
+                { label: "Blog", href: "/resources" },
                 { label: "Case Studies", href: "/resources/case-studies" },
                 { label: "Webinars", href: "/resources/webinars" },
             ]
@@ -52,8 +49,11 @@ export const cloudInteractConfig: SiteConfig = {
                 { label: "About Us", href: "/about" },
                 { label: "Our People", href: "/company/our-people" },
                 { label: "Careers", href: "/careers" },
-                { label: "Contact", href: "/contact" },
             ]
+        },
+        {
+            label: "Contact Us",
+            href: "/contact"
         }
     ],
     landingPage: {
