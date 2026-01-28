@@ -50,6 +50,7 @@ export const cloudInteractConfig: SiteConfig = {
             href: "/company",
             children: [
                 { label: "About Us", href: "/about" },
+                { label: "Our People", href: "/company/our-people" },
                 { label: "Careers", href: "/careers" },
                 { label: "Contact", href: "/contact" },
             ]

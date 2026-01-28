@@ -37,6 +37,7 @@ export function MarketingFooter() {
                         LinkedIn
                     </a>
                     <Link href="/privacy" className="hover:text-[var(--foreground)] transition-colors">Privacy</Link>
+                    <Link href="/company/legal" className="hover:text-[var(--foreground)] transition-colors">Legal</Link>
                     <Link href="/terms" className="hover:text-[var(--foreground)] transition-colors">Terms</Link>
                 </div>
             </div>
