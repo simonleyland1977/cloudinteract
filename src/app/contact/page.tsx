@@ -113,7 +113,7 @@ export default function ContactPage() {
                                     <div>
                                         <h3 className="text-lg font-semibold text-white mb-1">Locations</h3>
                                         <p className="text-slate-400">
-                                            UK: Lichfield, Staffordshire<br />
+                                            UK: London<br />
                                             US: North America
                                         </p>
                                     </div>

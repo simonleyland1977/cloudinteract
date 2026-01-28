@@ -39,14 +39,12 @@ export const cloudInteractConfig: SiteConfig = {
             children: [
                 { label: "Blog", href: "/resources" },
                 { label: "Case Studies", href: "/resources/case-studies" },
-                { label: "Webinars", href: "/resources/webinars" },
             ]
         },
         {
             label: "Company",
             href: "/company",
             children: [
-                { label: "About Us", href: "/about" },
                 { label: "Our People", href: "/company/our-people" },
                 { label: "Careers", href: "/careers" },
             ]
