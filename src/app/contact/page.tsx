@@ -32,19 +32,11 @@ export default function ContactPage() {
         setErrorMessage('');
 
         try {
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
+            // Mock submission delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Failed to submit form');
-            }
+            // Log submission for debugging (in case we want to check logs)
+            console.log('Form submitted (Mock):', formData);
 
             setSubmitStatus('success');
             setFormData({
@@ -58,7 +50,7 @@ export default function ContactPage() {
         } catch (error) {
             console.error('Form submission error:', error);
             setSubmitStatus('error');
-            setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
+            setErrorMessage('Something went wrong. Please try again.');
         } finally {
             setIsSubmitting(false);
         }
