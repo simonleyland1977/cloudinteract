@@ -19,9 +19,14 @@ export function MarketingHeader() {
                         className="h-10 w-auto"
                         priority
                     />
-                    <span className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-orange-400">
-                        CloudInteract.io
-                    </span>
+                    <div className="flex items-baseline">
+                        <span className="text-2xl font-bold tracking-tight text-[var(--foreground)]">
+                            CloudInteract
+                        </span>
+                        <span className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-orange-400">
+                            .io
+                        </span>
+                    </div>
                 </Link>
                 <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-[var(--foreground)]/60">
                     {siteConfig.mainNav.map((item) => (
