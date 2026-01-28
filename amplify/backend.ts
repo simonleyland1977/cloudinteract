@@ -1,9 +1,7 @@
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
-import { Function, FunctionUrlAuthType, Runtime, Code } from 'aws-cdk-lib/aws-lambda';
-import { HttpMethod } from 'aws-cdk-lib/aws-lambda';
-import * as path from 'path';
+import { createContact } from './functions/create-contact/resource';
 
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
@@ -11,28 +9,33 @@ import * as path from 'path';
 const backend = defineBackend({
   auth,
   data,
+  createContact,
 });
 
-// Add Lambda function for creating CRM contacts from public form submissions
-const createContactFn = new Function(backend.stack, 'CreateContactFunction', {
-  runtime: Runtime.NODEJS_18_X,
-  handler: 'index.handler',
-  code: Code.fromAsset(path.join(__dirname, '../lambda/create-contact')),
-  environment: {
-    APPSYNC_API_ID: backend.data.resources.graphqlApi.apiId,
-    AWS_REGION: backend.stack.region,
-  },
+// Grant the function permission to access the data resources
+// The defineFunction pattern automatically adds the function to the stack
+// We just need to add the env vars and permissions
+
+// Pass the API ID to the Lambda function
+backend.createContact.resources.lambda.addEnvironment(
+  'APPSYNC_API_ID',
+  backend.data.resources.graphqlApi.apiId
+);
+
+// Grant permissions to invoke AppSync
+// We use the underlying IAM role to grant access to the AppSync API
+backend.createContact.resources.lambda.addToRolePolicy({
+  Effect: 'Allow',
+  Action: ['appsync:GraphQL'],
+  Resource: [`${backend.data.resources.graphqlApi.attrArn}/*`]
 });
 
-// Grant the Lambda function permission to access AppSync
-backend.data.resources.graphqlApi.grantMutation(createContactFn, 'createContact', 'createInteraction');
-
-// Create Function URL for public access
-const fnUrl = createContactFn.addFunctionUrl({
-  authType: FunctionUrlAuthType.NONE,
+// Create Function URL for public access via the underlying Lambda resource
+const fnUrl = backend.createContact.resources.lambda.addFunctionUrl({
+  authType: 'NONE' as any, // Cast to avoid direct dependency on aws-cdk-lib types if mismatched
   cors: {
     allowedOrigins: ['*'],
-    allowedMethods: [HttpMethod.POST, HttpMethod.OPTIONS],
+    allowedMethods: ['POST', 'OPTIONS'] as any,
     allowedHeaders: ['Content-Type'],
   },
 });
