@@ -12,6 +12,7 @@ import { ServiceComparisonTable } from '@/components/ServiceComparisonTable';
 import { HowItWorksTimeline } from '@/components/HowItWorksTimeline';
 import { MarketplaceShowcase } from '@/components/MarketplaceShowcase';
 import { RegionalSwitcher, type Region } from '@/components/RegionalSwitcher';
+import { IndustrySolutions } from '@/components/IndustrySolutions';
 
 interface ManagedConnectContentProps {
     region?: 'UK' | 'US';
@@ -287,6 +288,9 @@ export function ManagedConnectContent({ region = 'US' }: ManagedConnectContentPr
                     </div>
                 </div>
             </section>
+
+            {/* Industry Solutions */}
+            <IndustrySolutions />
 
             {/* Pricing Calculator */}
             <section id="calculator" className="py-20 bg-gradient-to-b from-slate-900 to-slate-950">
