@@ -10,7 +10,7 @@ import {
 import { PricingCalculator } from '@/components/PricingCalculator';
 import { ServiceComparisonTable } from '@/components/ServiceComparisonTable';
 import { HowItWorksTimeline } from '@/components/HowItWorksTimeline';
-import { MarketplaceShowcase } from '@/components/MarketplaceShowcase';
+import { UnlimitedAIShowcase } from '@/components/UnlimitedAIShowcase';
 import { RegionalSwitcher, type Region } from '@/components/RegionalSwitcher';
 import { IndustrySolutions } from '@/components/IndustrySolutions';
 
@@ -423,20 +423,8 @@ export function ManagedConnectContent({ region = 'US' }: ManagedConnectContentPr
                 </div>
             </section>
 
-            {/* Integrations Showcase */}
-            <section className="py-20 bg-slate-950">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                            Integrates with Your Existing Stack
-                        </h2>
-                        <p className="text-xl text-slate-300">
-                            Connect seamlessly to the tools you already use
-                        </p>
-                    </div>
-                    <MarketplaceShowcase />
-                </div>
-            </section>
+            {/* Unlimited AI Showcase */}
+            <UnlimitedAIShowcase />
 
             {/* Pricing Details Section */}
             <section className="py-20 bg-gradient-to-b from-slate-950 to-slate-900">
