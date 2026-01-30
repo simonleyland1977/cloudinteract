@@ -17,6 +17,7 @@ export const cloudInteractConfig: SiteConfig = {
             href: "/what-we-do",
             children: [
                 { label: "Migration and Integration", href: "/services/migration" },
+                { label: "Managed Amazon Connect", href: "/managed-amazon-connect" },
                 { label: "Deploy AI Agents", href: "/solutions/digital-front-door" },
                 { label: "AWS Marketplace Offers", href: "/marketplace" },
             ]

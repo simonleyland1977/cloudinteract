@@ -1,0 +1,21 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "d8e7e1212f757b18f401a7785395e75e7233200e22613c24fa5a84b42518978e": {
+      "displayName": "FiftySix-dev-DynamoDB Template",
+      "source": {
+        "path": "FiftySix-dev-DynamoDB.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1-1706b515": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "d8e7e1212f757b18f401a7785395e75e7233200e22613c24fa5a84b42518978e.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

@@ -1,0 +1,24 @@
+{
+    "name": "bedrock-integration-lambda",
+    "version": "1.0.0",
+    "description": "Lambda function for Bedrock integration with Amazon Connect",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc",
+        "clean": "rm -f index.js",
+        "test": "echo \"No tests yet\" && exit 0"
+    },
+    "keywords": [],
+    "author": "fiftysix.ai",
+    "license": "MIT",
+    "dependencies": {
+        "@aws-sdk/client-bedrock-runtime": "^3.650.0",
+        "@aws-sdk/client-dynamodb": "^3.650.0",
+        "@aws-sdk/client-s3": "^3.650.0"
+    },
+    "devDependencies": {
+        "@types/aws-lambda": "^8.10.0",
+        "@types/node": "^20.0.0",
+        "typescript": "^5.0.0"
+    }
+}

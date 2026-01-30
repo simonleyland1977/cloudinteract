@@ -1,0 +1,36 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "4a018716c7d36d4c89f52eb2359f92d3c93b58bbad2f2f90189f205fa34bb04e": {
+      "displayName": "BedrockIntegration/Code",
+      "source": {
+        "path": "asset.4a018716c7d36d4c89f52eb2359f92d3c93b58bbad2f2f90189f205fa34bb04e",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-us-east-1-acc5cf69": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "4a018716c7d36d4c89f52eb2359f92d3c93b58bbad2f2f90189f205fa34bb04e.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    },
+    "cd763887efe23f2130131516d4682815208100905094a625d04f54f3893adb0a": {
+      "displayName": "FiftySix-dev-Bedrock Template",
+      "source": {
+        "path": "FiftySix-dev-Bedrock.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1-7e056000": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "cd763887efe23f2130131516d4682815208100905094a625d04f54f3893adb0a.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

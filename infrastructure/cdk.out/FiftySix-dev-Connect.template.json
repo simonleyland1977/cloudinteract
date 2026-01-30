@@ -1,0 +1,115 @@
+{
+ "Description": "Amazon Connect instance for dev environment",
+ "Resources": {
+  "ConnectInstance": {
+   "Type": "AWS::Connect::Instance",
+   "Properties": {
+    "Attributes": {
+     "AutoResolveBestVoices": true,
+     "ContactLens": true,
+     "ContactflowLogs": true,
+     "EarlyMedia": true,
+     "InboundCalls": true,
+     "OutboundCalls": true,
+     "UseCustomTTSVoices": false
+    },
+    "IdentityManagementType": "CONNECT_MANAGED",
+    "InstanceAlias": "fiftysix-demo-dev",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Owner",
+      "Value": "fiftysix.ai"
+     },
+     {
+      "Key": "Project",
+      "Value": "FiftySix-Connect-Bedrock"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-Connect/ConnectInstance"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yXFSw5AMBAA0LPYt4PiBFZWEg4gNa2kPkPMlIW4u4W3eQZMUUGW2Js1ukWvYYSnF4uLsjcPuBN5FKgnaojFEnpVT9RGOaK8inbnYeb0MiXkBWTJzCHoM5KEzUP3/wEnwqoeYwAAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-Connect/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ConnectInstanceId": {
+   "Description": "Amazon Connect instance ID",
+   "Value": {
+    "Fn::GetAtt": [
+     "ConnectInstance",
+     "Id"
+    ]
+   },
+   "Export": {
+    "Name": "fiftysix-connect-id-dev"
+   }
+  },
+  "ConnectInstanceArn": {
+   "Description": "Amazon Connect instance ARN",
+   "Value": {
+    "Fn::GetAtt": [
+     "ConnectInstance",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "fiftysix-connect-arn-dev"
+   }
+  },
+  "ConnectAccessUrl": {
+   "Description": "Amazon Connect admin access URL",
+   "Value": "https://fiftysix-demo-dev.my.connect.aws/"
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

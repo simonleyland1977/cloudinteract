@@ -1,0 +1,21 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "49d5fe0b95001fbdaaef8b28a5a0334301a53e2e65326be7f850e7206e349349": {
+      "displayName": "FiftySix-dev-Monitoring Template",
+      "source": {
+        "path": "FiftySix-dev-Monitoring.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1-50e89315": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "49d5fe0b95001fbdaaef8b28a5a0334301a53e2e65326be7f850e7206e349349.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

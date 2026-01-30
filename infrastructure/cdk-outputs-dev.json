@@ -1,0 +1,34 @@
+{
+  "FiftySix-dev-DynamoDB": {
+    "ExportsOutputFnGetAttConversationTable75C14D21ArnDAE9808D": "arn:aws:dynamodb:us-east-1:117204716049:table/fiftysix-conversation-context-dev",
+    "CallbackTableName": "fiftysix-callback-queue-dev",
+    "ExportsOutputRefConversationTable75C14D21A757611F": "fiftysix-conversation-context-dev",
+    "ConversationTableName": "fiftysix-conversation-context-dev"
+  },
+  "FiftySix-dev-Connect": {
+    "ConnectAccessUrl": "https://fiftysix-demo-dev.my.connect.aws/",
+    "ConnectInstanceId": "67957efe-f12b-4b64-8d8d-8ee307d77b06",
+    "ConnectInstanceArn": "arn:aws:connect:us-east-1:117204716049:instance/67957efe-f12b-4b64-8d8d-8ee307d77b06"
+  },
+  "FiftySix-dev-Storage": {
+    "ExportsOutputFnGetAttBedrockLogsBucketB6DBE235Arn0E9A0653": "arn:aws:s3:::fiftysix-bedrock-logs-dev-117204716049",
+    "ExportsOutputRefBedrockLogsBucketB6DBE23573C20B54": "fiftysix-bedrock-logs-dev-117204716049",
+    "TranscriptsBucketName": "fiftysix-transcripts-dev-117204716049",
+    "RecordingsBucketName": "fiftysix-recordings-dev-117204716049",
+    "FlowLogsBucketName": "fiftysix-flow-logs-dev-117204716049",
+    "BedrockLogsBucketName": "fiftysix-bedrock-logs-dev-117204716049"
+  },
+  "FiftySix-dev-IAM": {
+    "ExportsOutputFnGetAttBedrockInvocationRole31B5D2A7Arn52FC13CA": "arn:aws:iam::117204716049:role/fiftysix-bedrock-invoke-dev",
+    "ConnectServiceRoleArn": "arn:aws:iam::117204716049:role/fiftysix-connect-service-dev",
+    "BedrockInvocationRoleArn": "arn:aws:iam::117204716049:role/fiftysix-bedrock-invoke-dev"
+  },
+  "FiftySix-dev-Bedrock": {
+    "BedrockLambdaName": "fiftysix-bedrock-integration-dev",
+    "BedrockLambdaArn": "arn:aws:lambda:us-east-1:117204716049:function:fiftysix-bedrock-integration-dev",
+    "ExportsOutputRefBedrockIntegration8270BD19DB917D86": "fiftysix-bedrock-integration-dev"
+  },
+  "FiftySix-dev-Monitoring": {
+    "DashboardUrl": "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards:name=FiftySix-dev-Dashboard"
+  }
+}

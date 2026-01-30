@@ -1,0 +1,402 @@
+{
+ "Description": "IAM roles and policies for dev environment",
+ "Resources": {
+  "ConnectServiceRole76172FB3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "connect.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Service role for Amazon Connect to access AWS resources",
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonConnect_FullAccess"
+       ]
+      ]
+     }
+    ],
+    "RoleName": "fiftysix-connect-service-dev",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Owner",
+      "Value": "fiftysix.ai"
+     },
+     {
+      "Key": "Project",
+      "Value": "FiftySix-Connect-Bedrock"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-IAM/ConnectServiceRole/Resource"
+   }
+  },
+  "ConnectServiceRoleDefaultPolicyA1087FE2": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:DeleteObject",
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "s3:PutObject",
+        "s3:PutObjectAcl"
+       ],
+       "Effect": "Allow",
+       "Resource": "arn:aws:s3:::fiftysix-*/*"
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:lambda:us-east-1:",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":function:fiftysix-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:dynamodb:us-east-1:",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":table/fiftysix-*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ConnectServiceRoleDefaultPolicyA1087FE2",
+    "Roles": [
+     {
+      "Ref": "ConnectServiceRole76172FB3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-IAM/ConnectServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "BedrockInvocationRole31B5D2A7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Role for Lambda to invoke Bedrock models",
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "RoleName": "fiftysix-bedrock-invoke-dev",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Owner",
+      "Value": "fiftysix.ai"
+     },
+     {
+      "Key": "Project",
+      "Value": "FiftySix-Connect-Bedrock"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-IAM/BedrockInvocationRole/Resource"
+   }
+  },
+  "BedrockInvocationRoleDefaultPolicy5B6E55DA": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "bedrock:InvokeModel",
+        "bedrock:InvokeModelWithResponseStream"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        "arn:aws:bedrock:us-east-1::foundation-model/amazon.nova-lite-v1:0",
+        "arn:aws:bedrock:us-east-1::foundation-model/amazon.nova-pro-v1:0",
+        "arn:aws:bedrock:us-east-1::foundation-model/amazon.nova-sonic-v1:0"
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:dynamodb:us-east-1:",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":table/fiftysix-conversation-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "s3:PutObject",
+       "Effect": "Allow",
+       "Resource": "arn:aws:s3:::fiftysix-bedrock-logs-*/*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:logs:us-east-1:",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":log-group:/aws/lambda/fiftysix-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "FiftySix-dev-DynamoDB:ExportsOutputFnGetAttConversationTable75C14D21ArnDAE9808D"
+       }
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "FiftySix-dev-Storage:ExportsOutputFnGetAttBedrockLogsBucketB6DBE235Arn0E9A0653"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "FiftySix-dev-Storage:ExportsOutputFnGetAttBedrockLogsBucketB6DBE235Arn0E9A0653"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "appsync:GraphQL",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:appsync:us-east-1:",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":apis/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "BedrockInvocationRoleDefaultPolicy5B6E55DA",
+    "Roles": [
+     {
+      "Ref": "BedrockInvocationRole31B5D2A7"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-IAM/BedrockInvocationRole/DefaultPolicy/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yWKUQ5FMBAAz+K/XRQncADSd4CXqkqWasW2RMTdBV8zk4wAUVSQJWonrvuJW+zg/AWlJ6Z2+qOa4ZTeGlYP7mXrLerjyc8uJg35uOp3aWJYYriY872BkdJNlJAXkCUjIfI1uoCzAfnxBh1b+sJ8AAAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-IAM/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ConnectServiceRoleArn": {
+   "Description": "ARN of the Amazon Connect service role",
+   "Value": {
+    "Fn::GetAtt": [
+     "ConnectServiceRole76172FB3",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "fiftysix-connect-role-dev"
+   }
+  },
+  "BedrockInvocationRoleArn": {
+   "Description": "ARN of the Bedrock invocation role",
+   "Value": {
+    "Fn::GetAtt": [
+     "BedrockInvocationRole31B5D2A7",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "fiftysix-bedrock-role-dev"
+   }
+  },
+  "ExportsOutputFnGetAttBedrockInvocationRole31B5D2A7Arn52FC13CA": {
+   "Value": {
+    "Fn::GetAtt": [
+     "BedrockInvocationRole31B5D2A7",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "FiftySix-dev-IAM:ExportsOutputFnGetAttBedrockInvocationRole31B5D2A7Arn52FC13CA"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

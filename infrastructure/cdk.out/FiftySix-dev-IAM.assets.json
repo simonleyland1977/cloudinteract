@@ -1,0 +1,21 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "3fdf3eb81b497aeb8d57f7ac1ca0bc3302cfee152d646f9a90e128036f3a7236": {
+      "displayName": "FiftySix-dev-IAM Template",
+      "source": {
+        "path": "FiftySix-dev-IAM.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1-79a68cdb": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "3fdf3eb81b497aeb8d57f7ac1ca0bc3302cfee152d646f9a90e128036f3a7236.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

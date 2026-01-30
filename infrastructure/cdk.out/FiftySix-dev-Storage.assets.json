@@ -1,0 +1,21 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "cfb9031dd3a7c479459304edfacb9a8a60dd5f6ada59d4a69f3d3ba822793411": {
+      "displayName": "FiftySix-dev-Storage Template",
+      "source": {
+        "path": "FiftySix-dev-Storage.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1-493c0750": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "cfb9031dd3a7c479459304edfacb9a8a60dd5f6ada59d4a69f3d3ba822793411.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

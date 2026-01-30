@@ -1,0 +1,219 @@
+{
+ "Description": "DynamoDB tables for dev environment",
+ "Resources": {
+  "ConversationTable75C14D21": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "contactId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "timestamp",
+      "AttributeType": "N"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "contactId",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "timestamp",
+      "KeyType": "RANGE"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": false
+    },
+    "TableName": "fiftysix-conversation-context-dev",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Owner",
+      "Value": "fiftysix.ai"
+     },
+     {
+      "Key": "Project",
+      "Value": "FiftySix-Connect-Bedrock"
+     }
+    ],
+    "TimeToLiveSpecification": {
+     "AttributeName": "ttl",
+     "Enabled": true
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-DynamoDB/ConversationTable/Resource"
+   }
+  },
+  "CallbackTable7C57755A": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "customerId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "requestedTime",
+      "AttributeType": "N"
+     },
+     {
+      "AttributeName": "status",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "status-index",
+      "KeySchema": [
+       {
+        "AttributeName": "status",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "requestedTime",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "customerId",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "requestedTime",
+      "KeyType": "RANGE"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": false
+    },
+    "TableName": "fiftysix-callback-queue-dev",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Owner",
+      "Value": "fiftysix.ai"
+     },
+     {
+      "Key": "Project",
+      "Value": "FiftySix-Connect-Bedrock"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-DynamoDB/CallbackTable/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yXISw5AMBRA0bWYtw/FCixAgrm8fiT1acVriYi9SxjdkytAFBVkCZ7ElZ75YiXcXUA1Mzxp0JfD1WsJd49yMawe3YeHtYZ83NW3mhi2GB7mvDYwUXqIEvICsmQia/keXbCrgfbvC64Q6JNyAAAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-DynamoDB/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ConversationTableName": {
+   "Description": "DynamoDB table for conversation context",
+   "Value": {
+    "Ref": "ConversationTable75C14D21"
+   },
+   "Export": {
+    "Name": "fiftysix-conversation-table-dev"
+   }
+  },
+  "CallbackTableName": {
+   "Description": "DynamoDB table for callback queue",
+   "Value": {
+    "Ref": "CallbackTable7C57755A"
+   },
+   "Export": {
+    "Name": "fiftysix-callback-table-dev"
+   }
+  },
+  "ExportsOutputFnGetAttConversationTable75C14D21ArnDAE9808D": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ConversationTable75C14D21",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "FiftySix-dev-DynamoDB:ExportsOutputFnGetAttConversationTable75C14D21ArnDAE9808D"
+   }
+  },
+  "ExportsOutputRefConversationTable75C14D21A757611F": {
+   "Value": {
+    "Ref": "ConversationTable75C14D21"
+   },
+   "Export": {
+    "Name": "FiftySix-dev-DynamoDB:ExportsOutputRefConversationTable75C14D21A757611F"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

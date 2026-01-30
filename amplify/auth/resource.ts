@@ -8,4 +8,18 @@ export const auth = defineAuth({
   loginWith: {
     email: true,
   },
+  userAttributes: {
+    'custom:employeeRole': {
+      dataType: 'String',
+      mutable: true,
+    },
+    'custom:isAwsEmployee': {
+      dataType: 'String',
+      mutable: true,
+    },
+    'custom:verifiedAt': {
+      dataType: 'String',
+      mutable: true,
+    },
+  },
 });

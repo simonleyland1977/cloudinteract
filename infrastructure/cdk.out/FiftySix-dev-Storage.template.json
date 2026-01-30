@@ -1,0 +1,378 @@
+{
+ "Description": "S3 storage for dev environment",
+ "Resources": {
+  "RecordingsBucketAA52F499": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": {
+     "Fn::Join": [
+      "",
+      [
+       "fiftysix-recordings-dev-",
+       {
+        "Ref": "AWS::AccountId"
+       }
+      ]
+     ]
+    },
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "ExpirationInDays": 2555,
+       "Id": "MoveToGlacier",
+       "Status": "Enabled",
+       "Transitions": [
+        {
+         "StorageClass": "GLACIER",
+         "TransitionInDays": 90
+        }
+       ]
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Owner",
+      "Value": "fiftysix.ai"
+     },
+     {
+      "Key": "Project",
+      "Value": "FiftySix-Connect-Bedrock"
+     }
+    ],
+    "VersioningConfiguration": {
+     "Status": "Enabled"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-Storage/RecordingsBucket/Resource"
+   }
+  },
+  "TranscriptsBucketF640F863": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": {
+     "Fn::Join": [
+      "",
+      [
+       "fiftysix-transcripts-dev-",
+       {
+        "Ref": "AWS::AccountId"
+       }
+      ]
+     ]
+    },
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "ExpirationInDays": 60,
+       "Id": "MoveToIA",
+       "Status": "Enabled",
+       "Transitions": [
+        {
+         "StorageClass": "STANDARD_IA",
+         "TransitionInDays": 30
+        }
+       ]
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Owner",
+      "Value": "fiftysix.ai"
+     },
+     {
+      "Key": "Project",
+      "Value": "FiftySix-Connect-Bedrock"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-Storage/TranscriptsBucket/Resource"
+   }
+  },
+  "FlowLogsBucket8912DCDB": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": {
+     "Fn::Join": [
+      "",
+      [
+       "fiftysix-flow-logs-dev-",
+       {
+        "Ref": "AWS::AccountId"
+       }
+      ]
+     ]
+    },
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "ExpirationInDays": 60,
+       "Id": "DeleteOldLogs",
+       "Status": "Enabled"
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Owner",
+      "Value": "fiftysix.ai"
+     },
+     {
+      "Key": "Project",
+      "Value": "FiftySix-Connect-Bedrock"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-Storage/FlowLogsBucket/Resource"
+   }
+  },
+  "BedrockLogsBucketB6DBE235": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": {
+     "Fn::Join": [
+      "",
+      [
+       "fiftysix-bedrock-logs-dev-",
+       {
+        "Ref": "AWS::AccountId"
+       }
+      ]
+     ]
+    },
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "ExpirationInDays": 60,
+       "Id": "MoveToIA",
+       "Status": "Enabled",
+       "Transitions": [
+        {
+         "StorageClass": "STANDARD_IA",
+         "TransitionInDays": 30
+        }
+       ]
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Owner",
+      "Value": "fiftysix.ai"
+     },
+     {
+      "Key": "Project",
+      "Value": "FiftySix-Connect-Bedrock"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-Storage/BedrockLogsBucket/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yXGQQ5AMBAAwLe4t4uWD/AACQ+QqkqqlNgth8bfRXqaESBkDUWmHuR6dnyzE8SBlHZMPTiihNgE7QyxdvFp798u0BnoZf6YDayY36KCUkKRrWgtv4Inuxvokx8LU3xLZQAAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "FiftySix-dev-Storage/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "RecordingsBucketName": {
+   "Description": "S3 bucket for call recordings",
+   "Value": {
+    "Ref": "RecordingsBucketAA52F499"
+   },
+   "Export": {
+    "Name": "fiftysix-recordings-bucket-dev"
+   }
+  },
+  "TranscriptsBucketName": {
+   "Description": "S3 bucket for chat transcripts",
+   "Value": {
+    "Ref": "TranscriptsBucketF640F863"
+   },
+   "Export": {
+    "Name": "fiftysix-transcripts-bucket-dev"
+   }
+  },
+  "FlowLogsBucketName": {
+   "Description": "S3 bucket for contact flow logs",
+   "Value": {
+    "Ref": "FlowLogsBucket8912DCDB"
+   },
+   "Export": {
+    "Name": "fiftysix-flow-logs-bucket-dev"
+   }
+  },
+  "BedrockLogsBucketName": {
+   "Description": "S3 bucket for Bedrock interaction logs",
+   "Value": {
+    "Ref": "BedrockLogsBucketB6DBE235"
+   },
+   "Export": {
+    "Name": "fiftysix-bedrock-logs-bucket-dev"
+   }
+  },
+  "ExportsOutputFnGetAttBedrockLogsBucketB6DBE235Arn0E9A0653": {
+   "Value": {
+    "Fn::GetAtt": [
+     "BedrockLogsBucketB6DBE235",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "FiftySix-dev-Storage:ExportsOutputFnGetAttBedrockLogsBucketB6DBE235Arn0E9A0653"
+   }
+  },
+  "ExportsOutputRefBedrockLogsBucketB6DBE23573C20B54": {
+   "Value": {
+    "Ref": "BedrockLogsBucketB6DBE235"
+   },
+   "Export": {
+    "Name": "FiftySix-dev-Storage:ExportsOutputRefBedrockLogsBucketB6DBE23573C20B54"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -19,7 +19,15 @@ interface CostBreakdown {
     monthlyTotal: number;
 }
 
-export function PricingCalculator() {
+interface PricingCalculatorProps {
+    region?: 'UK' | 'US';
+}
+
+export function PricingCalculator({ region = 'US' }: PricingCalculatorProps) {
+    const isUK = region === 'UK';
+    const currency = isUK ? 'GBP' : 'USD';
+    const rate = isUK ? 0.8 : 1; // Approximate conversion for GBP
+
     const [inputs, setInputs] = useState<CalculatorInputs>({
         agents: 50,
         monthlyMinutes: 50000,
@@ -38,21 +46,25 @@ export function PricingCalculator() {
 
     const calculateCosts = (inputs: CalculatorInputs): CostBreakdown => {
         // Quick start: sliding scale $20k (20 agents) to $100k (100 agents)
-        const quickStart = 20000 + ((inputs.agents - 20) / 80) * 80000;
+        // Converted to GBP if UK
+        const baseQuickStart = 20000 + ((inputs.agents - 20) / 80) * 80000;
+        const quickStart = baseQuickStart * rate;
 
         // Monthly assurance: $1k-$2k based on agent count
-        const monthlyAssurance = inputs.agents <= 50 ? 1000 : 2000;
+        const baseMonthlyAssurance = inputs.agents <= 50 ? 1000 : 2000;
+        const monthlyAssurance = baseMonthlyAssurance * rate;
 
         // Voice: $0.018 service + $0.03/day DID + $0.0022/min telephony
-        const voiceCosts = (inputs.monthlyMinutes * 0.018) +
+        const baseVoiceCosts = (inputs.monthlyMinutes * 0.018) +
             (30 * 0.03) +
             (inputs.monthlyMinutes * 0.0022);
+        const voiceCosts = baseVoiceCosts * rate;
 
         // Chat: $0.004/message
-        const chatCosts = inputs.chatMessages * 0.004;
+        const chatCosts = (inputs.chatMessages * 0.004) * rate;
 
         // SMS: $0.01/message + $0.00883 carrier fee
-        const smsCosts = inputs.smsMessages * (0.01 + 0.00883);
+        const smsCosts = (inputs.smsMessages * (0.01 + 0.00883)) * rate;
 
         const monthlyTotal = monthlyAssurance + voiceCosts + chatCosts + smsCosts;
 
@@ -60,13 +72,14 @@ export function PricingCalculator() {
     };
 
     const calculateLegacyCost = (agents: number): number => {
-        // Typical legacy: $125/agent/month
-        return agents * 125;
+        // Typical legacy: $125/agent/month (approx £100)
+        const baseLegacy = agents * 125;
+        return baseLegacy * rate;
     };
 
     useEffect(() => {
         setCosts(calculateCosts(inputs));
-    }, [inputs]);
+    }, [inputs, region]); // Recalculate when region changes
 
     const legacyCost = calculateLegacyCost(inputs.agents);
     const monthlySavings = legacyCost - costs.monthlyTotal;
@@ -74,9 +87,9 @@ export function PricingCalculator() {
     const savingsPercentage = ((monthlySavings / legacyCost) * 100).toFixed(0);
 
     const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('en-US', {
+        return new Intl.NumberFormat(isUK ? 'en-GB' : 'en-US', {
             style: 'currency',
-            currency: 'USD',
+            currency: currency,
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
         }).format(amount);
@@ -91,7 +104,9 @@ export function PricingCalculator() {
                         <Calculator className="w-6 h-6 text-white" />
                         <h3 className="text-2xl font-bold text-white">Interactive Pricing Calculator</h3>
                     </div>
-                    <p className="text-purple-100">Customize your contact center needs and see real-time pricing</p>
+                    <p className="text-purple-100">
+                        Customize your contact center needs and see real-time pricing ({region})
+                    </p>
                 </div>
 
                 <div className="p-8">
@@ -186,7 +201,7 @@ export function PricingCalculator() {
 
                         {/* Right Column - Results */}
                         <div className="space-y-6">
-                            <h4 className="text-xl font-semibold text-white mb-4">Your Investment</h4>
+                            <h4 className="text-xl font-semibold text-white mb-4">Your Investment ({currency})</h4>
 
                             {/* Quick Start */}
                             <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">

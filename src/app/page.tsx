@@ -1,5 +1,3 @@
-"use client"
-
 import { siteConfig } from "@/config/site"
 import { StandardHero } from "@/components/StandardHero"
 import { SplitHero } from "@/components/SplitHero"
@@ -7,10 +5,11 @@ import { FeaturesSection } from "@/components/FeaturesSection"
 import { SolutionsSection } from "@/components/SolutionsSection"
 import { WhyConnectSection } from "@/components/WhyConnectSection"
 import { MarketplaceShowcase } from "@/components/MarketplaceShowcase"
+import { LatestBlogPosts } from "@/components/LatestBlogPosts"
 import { MarketingHeader } from "@/components/MarketingHeader"
 import { MarketingFooter } from "@/components/MarketingFooter"
 
-export default function Home() {
+export default async function Home() {
   // Split Layout (CloudInteract)
   if (siteConfig.landingPage.layout === "split") {
     return (
@@ -21,6 +20,7 @@ export default function Home() {
           <WhyConnectSection />
           <MarketplaceShowcase />
           <SolutionsSection />
+          <LatestBlogPosts />
         </main>
         <MarketingFooter />
       </div>
