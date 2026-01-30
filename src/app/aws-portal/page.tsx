@@ -1,6 +1,6 @@
 'use client';
 
-import { Shield, Briefcase, LineChart, Code, Sparkles, Zap, Network, Globe } from 'lucide-react';
+import { Shield, Briefcase, LineChart, Code, Sparkles, Zap, Network, Globe, Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
