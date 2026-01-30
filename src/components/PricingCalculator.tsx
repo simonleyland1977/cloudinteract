@@ -21,7 +21,7 @@ interface CostBreakdown {
 
 export function PricingCalculator() {
     const [inputs, setInputs] = useState<CalculatorInputs>({
-        agents: 25,
+        agents: 50,
         monthlyMinutes: 50000,
         chatMessages: 10000,
         smsMessages: 2000,
@@ -37,10 +37,8 @@ export function PricingCalculator() {
     });
 
     const calculateCosts = (inputs: CalculatorInputs): CostBreakdown => {
-        // Quick start: sliding scale $20k-$50k for 20-50 agents
-        const quickStart = inputs.agents <= 20 ? 20000 :
-            inputs.agents >= 50 ? 50000 :
-                20000 + ((inputs.agents - 20) / 30) * 30000;
+        // Quick start: sliding scale $20k (20 agents) to $100k (100 agents)
+        const quickStart = 20000 + ((inputs.agents - 20) / 80) * 80000;
 
         // Monthly assurance: $1k-$2k based on agent count
         const monthlyAssurance = inputs.agents <= 50 ? 1000 : 2000;
@@ -110,15 +108,15 @@ export function PricingCalculator() {
                                 </div>
                                 <input
                                     type="range"
-                                    min="1"
-                                    max="200"
+                                    min="20"
+                                    max="100"
                                     value={inputs.agents}
                                     onChange={(e) => setInputs({ ...inputs, agents: parseInt(e.target.value) })}
                                     className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-purple-600"
                                 />
                                 <div className="flex justify-between text-xs text-slate-500 mt-1">
-                                    <span>1</span>
-                                    <span>200</span>
+                                    <span>20</span>
+                                    <span>100</span>
                                 </div>
                             </div>
 
