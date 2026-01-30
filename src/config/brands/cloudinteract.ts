@@ -25,8 +25,7 @@ export const cloudInteractConfig: SiteConfig = {
             label: "Who We Serve",
             href: "/industries",
             children: [
-                { label: "Healthcare - UK", href: "/healthcare/uk" },
-                { label: "Healthcare - US", href: "/healthcare/us" },
+                { label: "Healthcare", href: "/healthcare" },
                 { label: "Public Sector", href: "/public-sector" },
                 { label: "Financial Services", href: "/finance" },
                 { label: "Retail", href: "/retail" },
