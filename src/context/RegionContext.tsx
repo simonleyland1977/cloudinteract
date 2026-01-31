@@ -28,11 +28,6 @@ export function RegionProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem("region", newRegion);
     };
 
-    if (!mounted) {
-        // Return children immediately to avoid hydration mismatch, keeping default 'us'
-        return <>{children}</>;
-    }
-
     return (
         <RegionContext.Provider value={{ region, setRegion: handleSetRegion }}>
             {children}
