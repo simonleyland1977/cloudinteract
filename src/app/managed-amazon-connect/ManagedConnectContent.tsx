@@ -66,7 +66,7 @@ export function ManagedConnectContent({ region = 'US' }: ManagedConnectContentPr
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
                             Managed Amazon Connect,
                             <span className="block mt-2 bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-                                Zero AWS Hassle
+                                Deliver Next Generation Customer Experience
                             </span>
                         </h1>
 
