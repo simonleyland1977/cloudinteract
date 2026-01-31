@@ -12,16 +12,8 @@ const navLinks = [
 ];
 
 export function AnchorNav() {
-    const [isVisible, setIsVisible] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            // Show anchor nav after hero section (roughly 600px)
-            setIsVisible(window.scrollY > 600);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    // For demo purposes, we want this visible immediately when selected
+    const [isVisible] = useState(true);
 
     return (
         <AnimatePresence>

@@ -18,7 +18,7 @@ export function NavigationSwitcher({ onTypeChange, currentType }: NavigationSwit
     return (
         <div className="fixed bottom-6 right-6 z-[200]">
             <motion.div
-                animate={isOpen ? { width: 320, height: 280 } : { width: 56, height: 56 }}
+                animate={isOpen ? { width: 320, height: "auto" } : { width: 56, height: 56 }}
                 className="bg-slate-900 border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
             >
                 <button
@@ -46,8 +46,8 @@ export function NavigationSwitcher({ onTypeChange, currentType }: NavigationSwit
                                     key={type.id}
                                     onClick={() => onTypeChange(type.id as NavType)}
                                     className={`text-left px-4 py-3 rounded-xl text-sm font-medium transition-all ${currentType === type.id
-                                            ? "bg-purple-600 text-white"
-                                            : "bg-white/5 text-slate-400 hover:bg-white/10"
+                                        ? "bg-purple-600 text-white"
+                                        : "bg-white/5 text-slate-400 hover:bg-white/10"
                                         }`}
                                 >
                                     {type.label}
