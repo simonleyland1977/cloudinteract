@@ -3,6 +3,8 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 const navLinks = [
     { label: "AI Showcase", href: "#ai-showcase" },
@@ -25,7 +27,26 @@ export function AnchorNav() {
                     className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-white/10"
                 >
                     <div className="container mx-auto px-6 h-14 flex items-center justify-between">
-                        <div className="flex items-center gap-8">
+                        {/* Branding */}
+                        <Link href="/" className="flex items-center gap-2 mr-8">
+                            <Image
+                                src="/logos/logo-icon-color.png"
+                                alt="CloudInteract"
+                                width={32}
+                                height={32}
+                                className="h-8 w-auto"
+                            />
+                            <div className="hidden md:flex items-baseline">
+                                <span className="text-lg font-bold tracking-tight text-white">
+                                    CloudInteract
+                                </span>
+                                <span className="text-lg font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-orange-400">
+                                    .io
+                                </span>
+                            </div>
+                        </Link>
+
+                        <div className="flex items-center gap-6">
                             {navLinks.map((link) => (
                                 <a
                                     key={link.href}
