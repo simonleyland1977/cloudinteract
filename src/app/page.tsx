@@ -1,6 +1,6 @@
 import { siteConfig } from "@/config/site"
 import { StandardHero } from "@/components/StandardHero"
-import { SplitHero } from "@/components/SplitHero"
+import { Hero3Col } from "@/components/Hero3Col"
 import { FeaturesSection } from "@/components/FeaturesSection"
 import { SolutionsSection } from "@/components/SolutionsSection"
 import { WhyConnectSection } from "@/components/WhyConnectSection"
@@ -16,13 +16,13 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-  // Split Layout (CloudInteract)
+  // CloudInteract Layout with 3 Pillars
   if (siteConfig.landingPage.layout === "split") {
     return (
       <div className="flex flex-col min-h-screen bg-slate-950">
         <MarketingHeader />
         <main className="flex-grow">
-          <SplitHero />
+          <Hero3Col />
           <WhyConnectSection />
           <MarketplaceShowcase />
           <SolutionsSection />
