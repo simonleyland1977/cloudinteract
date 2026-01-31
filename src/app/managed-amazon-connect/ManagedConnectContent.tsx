@@ -16,12 +16,7 @@ import { HowItWorksTimeline } from '@/components/HowItWorksTimeline';
 import { UnlimitedAIShowcase } from '@/components/UnlimitedAIShowcase';
 import { RegionalSwitcher, type Region } from '@/components/RegionalSwitcher';
 import { IndustrySolutions } from '@/components/IndustrySolutions';
-import { NavigationSwitcher } from '@/components/NavigationSwitcher';
 import { AnchorNav } from '@/components/nav-variants/AnchorNav';
-import { FloatingGlassHeader } from '@/components/nav-variants/FloatingGlassHeader';
-import { HybridHeader } from '@/components/nav-variants/HybridHeader';
-
-type NavType = "none" | "anchor" | "glass" | "hybrid";
 
 interface ManagedConnectContentProps {
     region?: 'UK' | 'US';
@@ -31,13 +26,12 @@ export function ManagedConnectContent({ region = 'US' }: ManagedConnectContentPr
     const router = useRouter();
     const isUK = region === 'UK';
     const currencySymbol = isUK ? '£' : '$';
-    const centerSpelling = isUK ? 'Centre' : 'Center';
+    const centerSpelling = isUK ? 'Center' : 'Center';
 
     const handleRegionChange = (newRegion: Region) => {
         router.push(`/managed-amazon-connect/${newRegion}`);
     };
 
-    const [navType, setNavType] = useState<NavType>("none");
 
     // Pricing values
     const pricing = {
@@ -51,12 +45,8 @@ export function ManagedConnectContent({ region = 'US' }: ManagedConnectContentPr
 
     return (
         <div className="min-h-screen bg-slate-950">
-            <NavigationSwitcher currentType={navType} onTypeChange={setNavType} />
-
-            {/* Conditional Navigation Display */}
-            {navType === "anchor" && <AnchorNav />}
-            {navType === "glass" && <FloatingGlassHeader />}
-            {navType === "hybrid" && <HybridHeader />}
+            {/* Navigation */}
+            <AnchorNav />
 
             <RegionalSwitcher
                 selectedRegion={region.toLowerCase() as Region}
