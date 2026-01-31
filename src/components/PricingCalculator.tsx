@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Calculator, TrendingDown, Zap } from 'lucide-react';
+import { Calculator, TrendingDown, Zap, Sparkles } from 'lucide-react';
 
 interface CalculatorInputs {
     agents: number;
@@ -71,17 +71,29 @@ export function PricingCalculator({ region = 'US' }: PricingCalculatorProps) {
         return { quickStart, monthlyAssurance, voiceCosts, chatCosts, smsCosts, monthlyTotal };
     };
 
-    const calculateLegacyCost = (agents: number): number => {
-        // Typical legacy: $125/agent/month (approx £100)
-        const baseLegacy = agents * 125;
-        return baseLegacy * rate;
+    const calculateLegacyCost = (inputs: CalculatorInputs): number => {
+        // Legacy Cost = Agents * $125
+        const baseLegacy = inputs.agents * 125;
+
+        // ADDED: Standard Amazon Connect would usually charge extra for AI
+        // Contact Lens ($0.015/min) + Generative AI ($0.004/req)
+        // We estimate "AI Value" at approx $0.015 per minute of logic
+        const aiValue = inputs.monthlyMinutes * 0.015;
+
+        // Legacy systems often charge huge add-ons for "Advanced Analytics/AI", 
+        // effectively making the "Apples to Apples" comparison value much higher.
+        // We add this AI Value to the "Legacy/Standard" cost to show what they WOULD pay elsewhere.
+        return (baseLegacy + aiValue) * rate;
     };
+
+    // Calculate AI Value to display as "Included"
+    const aiIncludedValue = (inputs.monthlyMinutes * 0.015) * rate;
 
     useEffect(() => {
         setCosts(calculateCosts(inputs));
     }, [inputs, region]); // Recalculate when region changes
 
-    const legacyCost = calculateLegacyCost(inputs.agents);
+    const legacyCost = calculateLegacyCost(inputs);
     const monthlySavings = legacyCost - costs.monthlyTotal;
     const annualSavings = monthlySavings * 12;
     const savingsPercentage = ((monthlySavings / legacyCost) * 100).toFixed(0);
@@ -220,6 +232,16 @@ export function PricingCalculator({ region = 'US' }: PricingCalculatorProps) {
                                     <span className="font-semibold text-white">{formatCurrency(costs.monthlyAssurance)}</span>
                                 </div>
                                 <div className="flex justify-between items-center py-2 border-b border-slate-700">
+                                    <div className="flex flex-col">
+                                        <span className="text-pink-400 font-medium flex items-center gap-2">
+                                            <Sparkles className="w-3 h-3" />
+                                            Unlimited AI & Analytics
+                                        </span>
+                                        <span className="text-xs text-slate-500">Normal value: {formatCurrency(aiIncludedValue)}</span>
+                                    </div>
+                                    <span className="font-bold text-green-400">INCLUDED ($0.00)</span>
+                                </div>
+                                <div className="flex justify-between items-center py-2 border-b border-slate-700">
                                     <span className="text-slate-300">Voice Usage</span>
                                     <span className="font-semibold text-white">{formatCurrency(costs.voiceCosts)}</span>
                                 </div>
@@ -249,7 +271,7 @@ export function PricingCalculator({ region = 'US' }: PricingCalculatorProps) {
                                 <div className="bg-green-900/20 rounded-lg p-4 border border-green-500/30">
                                     <div className="flex items-center gap-2 mb-2">
                                         <TrendingDown className="w-5 h-5 text-green-400" />
-                                        <span className="text-sm font-semibold text-green-400">vs. Legacy Systems</span>
+                                        <span className="text-sm font-semibold text-green-400">vs. Standard Contact Center</span>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
@@ -262,7 +284,7 @@ export function PricingCalculator({ region = 'US' }: PricingCalculatorProps) {
                                         </div>
                                     </div>
                                     <div className="mt-2 text-sm text-green-300">
-                                        Save up to {savingsPercentage}% compared to traditional contact centers
+                                        Save up to {savingsPercentage}% by including Unlimited AI
                                     </div>
                                 </div>
                             )}
