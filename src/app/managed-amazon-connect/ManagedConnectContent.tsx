@@ -46,9 +46,7 @@ export function ManagedConnectContent({ region = 'US' }: ManagedConnectContentPr
     return (
         <div className="min-h-screen bg-slate-950">
             {/* Navigation */}
-            <AnchorNav />
-
-            <RegionalSwitcher
+            <AnchorNav
                 selectedRegion={region.toLowerCase() as Region}
                 onRegionChange={handleRegionChange}
             />

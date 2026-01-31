@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Globe } from "lucide-react";
+import { type Region } from "../RegionalSwitcher";
 
 const navLinks = [
     { label: "AI Showcase", href: "#ai-showcase" },
@@ -13,7 +15,12 @@ const navLinks = [
     { label: "Calculator", href: "#calculator" },
 ];
 
-export function AnchorNav() {
+interface AnchorNavProps {
+    selectedRegion?: Region;
+    onRegionChange?: (region: Region) => void;
+}
+
+export function AnchorNav({ selectedRegion = 'us', onRegionChange }: AnchorNavProps) {
     // For demo purposes, we want this visible immediately when selected
     const [isVisible] = useState(true);
 
@@ -46,23 +53,54 @@ export function AnchorNav() {
                             </div>
                         </Link>
 
-                        <div className="flex items-center gap-6">
-                            {navLinks.map((link) => (
-                                <a
-                                    key={link.href}
-                                    href={link.href}
-                                    className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
-                                >
-                                    {link.label}
-                                </a>
-                            ))}
+                        <div className="flex items-center flex-1 justify-end gap-6">
+                            <div className="hidden lg:flex items-center gap-6">
+                                {navLinks.map((link) => (
+                                    <a
+                                        key={link.href}
+                                        href={link.href}
+                                        className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                                    >
+                                        {link.label}
+                                    </a>
+                                ))}
+                            </div>
+
+                            {/* Regional Switcher */}
+                            {onRegionChange && (
+                                <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-white/5 rounded-lg border border-white/10">
+                                    <Globe className="w-3 h-3 text-slate-400" />
+                                    <div className="flex gap-1">
+                                        <button
+                                            onClick={() => onRegionChange('uk')}
+                                            className={`px-2 py-0.5 rounded text-xs font-medium transition-all ${selectedRegion === 'uk'
+                                                ? 'bg-blue-600 text-white'
+                                                : 'text-slate-400 hover:text-white'
+                                                }`}
+                                        >
+                                            UK
+                                        </button>
+                                        <div className="w-px h-3 bg-white/10 my-auto" />
+                                        <button
+                                            onClick={() => onRegionChange('us')}
+                                            className={`px-2 py-0.5 rounded text-xs font-medium transition-all ${selectedRegion === 'us'
+                                                ? 'bg-purple-600 text-white'
+                                                : 'text-slate-400 hover:text-white'
+                                                }`}
+                                        >
+                                            US
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            <a
+                                href="#calculator"
+                                className="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
+                            >
+                                Get Started
+                            </a>
                         </div>
-                        <a
-                            href="#calculator"
-                            className="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
-                        >
-                            Get Started
-                        </a>
                     </div>
                 </motion.div>
             )}
