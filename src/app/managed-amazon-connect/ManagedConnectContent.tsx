@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -13,6 +15,12 @@ import { HowItWorksTimeline } from '@/components/HowItWorksTimeline';
 import { UnlimitedAIShowcase } from '@/components/UnlimitedAIShowcase';
 import { RegionalSwitcher, type Region } from '@/components/RegionalSwitcher';
 import { IndustrySolutions } from '@/components/IndustrySolutions';
+import { NavigationSwitcher } from '@/components/NavigationSwitcher';
+import { AnchorNav } from '@/components/nav-variants/AnchorNav';
+import { FloatingGlassHeader } from '@/components/nav-variants/FloatingGlassHeader';
+import { HybridHeader } from '@/components/nav-variants/HybridHeader';
+
+type NavType = "none" | "anchor" | "glass" | "hybrid";
 
 interface ManagedConnectContentProps {
     region?: 'UK' | 'US';
@@ -28,6 +36,8 @@ export function ManagedConnectContent({ region = 'US' }: ManagedConnectContentPr
         router.push(`/managed-amazon-connect/${newRegion}`);
     };
 
+    const [navType, setNavType] = useState<NavType>("none");
+
     // Pricing values
     const pricing = {
         quickStart20: isUK ? '16,000' : '20,000',
@@ -40,6 +50,13 @@ export function ManagedConnectContent({ region = 'US' }: ManagedConnectContentPr
 
     return (
         <div className="min-h-screen bg-slate-950">
+            <NavigationSwitcher currentType={navType} onTypeChange={setNavType} />
+
+            {/* Conditional Navigation Display */}
+            {navType === "anchor" && <AnchorNav />}
+            {navType === "glass" && <FloatingGlassHeader />}
+            {navType === "hybrid" && <HybridHeader />}
+
             <RegionalSwitcher
                 selectedRegion={region.toLowerCase() as Region}
                 onRegionChange={handleRegionChange}
@@ -290,7 +307,9 @@ export function ManagedConnectContent({ region = 'US' }: ManagedConnectContentPr
             </section>
 
             {/* Industry Solutions */}
-            <IndustrySolutions />
+            <div id="industry-solutions">
+                <IndustrySolutions />
+            </div>
 
             {/* Pricing Calculator */}
             <section id="calculator" className="py-20 bg-gradient-to-b from-slate-900 to-slate-950">
@@ -424,10 +443,12 @@ export function ManagedConnectContent({ region = 'US' }: ManagedConnectContentPr
             </section>
 
             {/* Unlimited AI Showcase */}
-            <UnlimitedAIShowcase />
+            <div id="ai-showcase">
+                <UnlimitedAIShowcase />
+            </div>
 
             {/* Pricing Details Section */}
-            <section className="py-20 bg-gradient-to-b from-slate-950 to-slate-900">
+            <section id="regional-pricing" className="py-20 bg-gradient-to-b from-slate-950 to-slate-900">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
