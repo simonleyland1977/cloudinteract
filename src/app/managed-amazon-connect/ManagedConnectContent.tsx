@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -80,18 +81,32 @@ export function ManagedConnectContent({ region = 'US' }: ManagedConnectContentPr
                         </div>
 
                         {/* Headline */}
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-                            Managed Amazon Connect,
-                            <span className="block mt-2 bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-                                Deliver Next Generation Customer Experience
-                            </span>
-                        </h1>
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            className="relative z-10"
+                        >
+                            <div className="absolute -inset-x-20 -inset-y-10 bg-purple-500/10 blur-3xl rounded-full opacity-50 pointer-events-none" />
+
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight tracking-tight">
+                                Managed Amazon Connect,
+                                <span className="block mt-2 bg-gradient-to-r from-purple-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
+                                    Deliver Next Generation Customer Experience
+                                </span>
+                            </h1>
+                        </motion.div>
 
                         {/* Subheadline */}
-                        <p className="text-xl md:text-2xl text-slate-300 mb-8 leading-relaxed">
+                        <motion.p
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="text-lg md:text-xl text-slate-300 mb-8 leading-relaxed max-w-2xl mx-auto"
+                        >
                             CloudInteract manages your Amazon Connect environment from migration to ongoing operations.
                             You focus on customers, we handle everything else.
-                        </p>
+                        </motion.p>
 
                         {/* Quick Stats */}
                         <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto mb-10">
