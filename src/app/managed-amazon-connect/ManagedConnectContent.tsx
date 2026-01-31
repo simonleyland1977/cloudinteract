@@ -531,6 +531,13 @@ export function ManagedConnectContent({ region = 'US' }: ManagedConnectContentPr
                                 <div className="pt-4 border-t border-slate-700">
                                     <p className="text-sm font-semibold text-slate-300 mb-3">AWS Usage (pass-through at cost):</p>
                                     <ul className="space-y-2 text-sm">
+                                        <li className="flex justify-between items-center">
+                                            <span className="text-pink-400 font-medium flex items-center gap-2">
+                                                <Sparkles className="w-3 h-3" />
+                                                Unlimited AI
+                                            </span>
+                                            <span className="text-green-400 font-bold">INCLUDED</span>
+                                        </li>
                                         <li className="flex justify-between">
                                             <span className="text-slate-400">Voice</span>
                                             <span className="text-white">~{currencySymbol}{pricing.voice}/min</span>
