@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Globe } from "lucide-react";
+import { Globe, Menu, X } from "lucide-react";
 import { type Region } from "../RegionalSwitcher";
 
 const navLinks = [
@@ -23,6 +23,7 @@ interface AnchorNavProps {
 export function AnchorNav({ selectedRegion = 'us', onRegionChange }: AnchorNavProps) {
     // For demo purposes, we want this visible immediately when selected
     const [isVisible] = useState(true);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     return (
         <AnimatePresence>
@@ -53,7 +54,8 @@ export function AnchorNav({ selectedRegion = 'us', onRegionChange }: AnchorNavPr
                             </div>
                         </Link>
 
-                        <div className="flex items-center flex-1 justify-end gap-6">
+                        <div className="flex items-center flex-1 justify-end gap-4 lg:gap-6">
+                            {/* Desktop Links */}
                             <div className="hidden lg:flex items-center gap-6">
                                 {navLinks.map((link) => (
                                     <a
@@ -66,7 +68,7 @@ export function AnchorNav({ selectedRegion = 'us', onRegionChange }: AnchorNavPr
                                 ))}
                             </div>
 
-                            {/* Regional Switcher */}
+                            {/* Regional Switcher (Desktop/Tablet) */}
                             {onRegionChange && (
                                 <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-white/5 rounded-lg border border-white/10">
                                     <Globe className="w-3 h-3 text-slate-400" />
@@ -94,14 +96,85 @@ export function AnchorNav({ selectedRegion = 'us', onRegionChange }: AnchorNavPr
                                 </div>
                             )}
 
+                            {/* CTA Button */}
                             <a
                                 href="#calculator"
-                                className="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
+                                className="hidden sm:block bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
                             >
                                 Get Started
                             </a>
+
+                            {/* Mobile Menu Toggle */}
+                            <button
+                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                className="lg:hidden p-2 text-slate-300 hover:text-white"
+                            >
+                                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                            </button>
                         </div>
                     </div>
+
+                    {/* Mobile Menu Overlay */}
+                    <AnimatePresence>
+                        {isMobileMenuOpen && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="lg:hidden border-t border-white/10 bg-slate-900 overflow-hidden"
+                            >
+                                <div className="px-6 py-4 space-y-4">
+                                    {navLinks.map((link) => (
+                                        <a
+                                            key={link.href}
+                                            href={link.href}
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className="block text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                                        >
+                                            {link.label}
+                                        </a>
+                                    ))}
+
+                                    {/* Mobile Regional Switcher */}
+                                    {onRegionChange && (
+                                        <div className="flex items-center justify-between py-2 border-t border-white/10 mt-2">
+                                            <span className="text-sm text-slate-400 flex items-center gap-2">
+                                                <Globe className="w-4 h-4" /> Region
+                                            </span>
+                                            <div className="flex items-center gap-2 bg-white/5 rounded-lg p-1">
+                                                <button
+                                                    onClick={() => onRegionChange('uk')}
+                                                    className={`px-3 py-1 rounded text-xs font-medium transition-all ${selectedRegion === 'uk'
+                                                        ? 'bg-blue-600 text-white'
+                                                        : 'text-slate-400'
+                                                        }`}
+                                                >
+                                                    UK
+                                                </button>
+                                                <button
+                                                    onClick={() => onRegionChange('us')}
+                                                    className={`px-3 py-1 rounded text-xs font-medium transition-all ${selectedRegion === 'us'
+                                                        ? 'bg-purple-600 text-white'
+                                                        : 'text-slate-400'
+                                                        }`}
+                                                >
+                                                    US
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <a
+                                        href="#calculator"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="block text-center w-full bg-purple-600 hover:bg-purple-500 text-white text-sm font-bold px-4 py-3 rounded-xl transition-all"
+                                    >
+                                        Get Started
+                                    </a>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </motion.div>
             )}
         </AnimatePresence>
