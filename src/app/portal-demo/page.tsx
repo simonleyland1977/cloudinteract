@@ -19,7 +19,8 @@ import {
     TrendingDown,
     LogOut,
     CheckCircle2,
-    XCircle
+    XCircle,
+    Sparkles
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -283,8 +284,8 @@ function NavButton({ icon: Icon, label, active, onClick }: { icon: any, label: s
         <button
             onClick={onClick}
             className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg transition-all ${active
-                    ? 'bg-purple-600/10 text-purple-400 font-medium'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                ? 'bg-purple-600/10 text-purple-400 font-medium'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800'
                 }`}
         >
             <Icon size={20} className={active ? "text-purple-400" : "text-slate-500"} />
@@ -323,8 +324,8 @@ function ActivityItem({ type, status, agent, time, description }: any) {
     return (
         <div className="flex items-center gap-4 p-3 hover:bg-slate-800/50 rounded-lg transition-colors border border-transparent hover:border-slate-800">
             <div className={`w-10 h-10 rounded-full flex items-center justify-center border ${type === 'Call' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
-                    type === 'Chat' ? 'bg-purple-500/10 border-purple-500/20 text-purple-400' :
-                        'bg-orange-500/10 border-orange-500/20 text-orange-400'
+                type === 'Chat' ? 'bg-purple-500/10 border-purple-500/20 text-purple-400' :
+                    'bg-orange-500/10 border-orange-500/20 text-orange-400'
                 }`}>
                 {type === 'Call' ? <Phone size={16} /> : type === 'Chat' ? <MessageSquare size={16} /> : <Activity size={16} />}
             </div>

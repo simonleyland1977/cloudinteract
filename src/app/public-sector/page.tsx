@@ -93,7 +93,7 @@ export default function PublicSectorPage() {
                     title: "Surge Capacity",
                     problem: "Disasters and enrollment periods cause call spikes that overwhelm staff.",
                     solution: "Elastic AI workforce scales instantly to handle infinite concurrent calls during crises.",
-                    icon: activity
+                    icon: Activity
                 },
                 {
                     title: "Complex Eligibility",
