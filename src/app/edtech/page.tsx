@@ -1,5 +1,6 @@
 "use client"
 
+import { useRegion } from "@/context/RegionContext"
 import { MarketingHeader } from "@/components/MarketingHeader"
 import { MarketingFooter } from "@/components/MarketingFooter"
 import { useState, useEffect } from "react"
@@ -12,27 +13,7 @@ import { IndustryStats, type Stat } from "@/components/industry/IndustryStats"
 type Region = 'uk' | 'us'
 
 export default function EdtechPage() {
-    const [selectedRegion, setSelectedRegion] = useState<Region>('uk')
-    const [isClient, setIsClient] = useState(false)
-
-    useEffect(() => {
-        setIsClient(true)
-        const savedRegion = localStorage.getItem('edtech-region') as Region | null
-        if (savedRegion) {
-            setSelectedRegion(savedRegion)
-            return
-        }
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-        const isUS = timezone.includes('America')
-        setSelectedRegion(isUS ? 'us' : 'uk')
-    }, [])
-
-    const handleRegionChange = (region: Region) => {
-        setSelectedRegion(region)
-        if (isClient) {
-            localStorage.setItem('edtech-region', region)
-        }
-    }
+    const { region: selectedRegion } = useRegion()
 
     const content = {
         uk: {
@@ -210,17 +191,7 @@ export default function EdtechPage() {
                     <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/20 via-slate-950 to-purple-900/20" />
 
                     <div className="container mx-auto px-6 relative z-10">
-                        {/* Region Switcher */}
-                        <div className="absolute top-0 right-6 md:right-0">
-                            <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/50 rounded-lg p-1 flex gap-1 shadow-lg">
-                                <button onClick={() => handleRegionChange('uk')} className={`px-3 py-1 text-xs font-bold rounded-md transition-all flex items-center gap-2 ${selectedRegion === 'uk' ? 'bg-blue-600/20 text-blue-400' : 'text-slate-400 hover:text-slate-200'}`}>
-                                    <Globe className="w-3 h-3" /> UK
-                                </button>
-                                <button onClick={() => handleRegionChange('us')} className={`px-3 py-1 text-xs font-bold rounded-md transition-all flex items-center gap-2 ${selectedRegion === 'us' ? 'bg-purple-600/20 text-purple-400' : 'text-slate-400 hover:text-slate-200'}`}>
-                                    <Globe className="w-3 h-3" /> US
-                                </button>
-                            </div>
-                        </div>
+                        {/* Region Switcher Moved to Header */}
 
                         <div className="max-w-4xl mx-auto text-center mt-8 md:mt-0">
                             <div className={`inline-block px-4 py-2 border rounded-full text-sm font-medium mb-6 ${colors.badge}`}>

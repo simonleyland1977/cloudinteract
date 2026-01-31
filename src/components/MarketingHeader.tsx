@@ -7,7 +7,11 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { MobileMenu } from "@/components/MobileMenu";
 import { siteConfig } from "@/config/site";
 
+import { Globe } from "lucide-react";
+import { useRegion } from "@/context/RegionContext";
+
 export function MarketingHeader() {
+    const { region, setRegion } = useRegion();
     return (
         <header className="fixed w-full z-[100] top-0 border-b border-[var(--border)] bg-[var(--background)]/80 backdrop-blur-xl">
             <div className="container mx-auto px-6 h-20 flex items-center justify-between">
@@ -61,6 +65,31 @@ export function MarketingHeader() {
                     ))}
                 </nav>
                 <div className="flex items-center gap-4">
+                    {/* Region Switcher */}
+                    <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-[var(--foreground)]/5 rounded-lg border border-[var(--border)]">
+                        <Globe className="w-3 h-3 text-[var(--foreground)]/60" />
+                        <div className="flex gap-1">
+                            <button
+                                onClick={() => setRegion('uk')}
+                                className={`px-2 py-0.5 rounded text-xs font-medium transition-all ${region === 'uk'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'text-[var(--foreground)]/60 hover:text-[var(--foreground)]'
+                                    }`}
+                            >
+                                UK
+                            </button>
+                            <div className="w-px h-3 bg-[var(--foreground)]/10 my-auto" />
+                            <button
+                                onClick={() => setRegion('us')}
+                                className={`px-2 py-0.5 rounded text-xs font-medium transition-all ${region === 'us'
+                                    ? 'bg-purple-600 text-white'
+                                    : 'text-[var(--foreground)]/60 hover:text-[var(--foreground)]'
+                                    }`}
+                            >
+                                US
+                            </button>
+                        </div>
+                    </div>
                     <a
                         href={siteConfig.links.linkedin}
                         target="_blank"

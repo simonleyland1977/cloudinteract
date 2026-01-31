@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import ConfigureAmplify from "@/components/ConfigureAmplify";
-import { CookieConsent } from "@/components/CookieConsent";
+import { AppProviders } from "@/components/AppProviders";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
 
@@ -36,11 +34,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider>
-          <ConfigureAmplify />
+        <AppProviders>
           {children}
-          <CookieConsent />
-        </ThemeProvider>
+        </AppProviders>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || ""} />
       </body>
     </html>
